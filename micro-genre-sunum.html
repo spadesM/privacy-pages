@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Filmlerden Micro-Genre’ye · MovieTag Canlıya Alma Sunumu</title>
+<title>Filmlerden Micro-Genre’ye · MovieTag Model Taşıma ve Pipeline Sunumu</title>
 <style>
 :root{
   --bg:#0a0e16;--card:#111827;--line:rgba(148,163,184,.16);
@@ -204,6 +204,14 @@ pre.code{margin:0;font:12.5px/1.6 var(--mono);background:#080d17;border:1px soli
 @keyframes grow{from{transform:scaleX(0)}}
 .axis{display:grid;grid-template-columns:86px 1fr 52px;gap:12px;font:10.5px var(--mono);color:var(--dim)}
 .axis div{display:flex;justify-content:space-between}
+.ftab{width:100%;border-collapse:collapse;font-size:12.8px}
+.ftab th{font:600 10.5px var(--mono);color:var(--dim);letter-spacing:.08em;text-transform:uppercase;text-align:left;padding:2px 10px 8px;border-bottom:1px solid var(--line)}
+.ftab td{padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:middle;color:#c6cdd8}
+.ftab tr:last-child td{border-bottom:none}
+.ftab td.t{color:var(--text);font-weight:600;white-space:nowrap}
+.ftab td.m{font-family:var(--mono);white-space:nowrap;color:var(--muted)}
+.ftab td.r2{text-align:right;color:var(--teal)}
+.ftab .chip{font-size:11px;padding:1px 7px;margin:1px 4px 1px 0}
 
 /* ---------- stack / vertical timeline ---------- */
 .stack{display:flex;flex-direction:column;gap:8px}
@@ -341,25 +349,25 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 01 · KAPAK -->
 <section class="slide s-cover" data-title="Kapak">
   <div class="cover">
-    <div class="r kicker">Teknik Sunum · <span lang="en">Micro-Genre Pipeline</span></div>
+    <div class="r kicker">Proje Sunumu · <span lang="en">Micro-Genre Pipeline</span></div>
     <h1 class="r cover-title">Filmlerden<br><span class="grad">Micro-Genre’ye</span></h1>
-    <p class="r cover-sub">MovieTag çok modlu modelinin AWS üzerinde olay güdümlü, doğrulanmış ve sürümlü biçimde canlıya alınması</p>
+    <p class="r cover-sub">MovieTag multimodal modelinin AWS altyapımıza taşınması: full-length filmler için event-driven, versioned ve production-ready inference pipeline</p>
     <div class="r chips">
       <span class="chip" style="--c:var(--teal)">CLIP · CLAP · MPNet</span>
-      <span class="chip" style="--c:var(--orange)">FiLM füzyonu + Focal Loss</span>
-      <span class="chip" style="--c:var(--violet)">SageMaker Processing</span>
+      <span class="chip" style="--c:var(--orange)">FiLM fusion + Focal Loss</span>
+      <span class="chip" style="--c:var(--violet)">SageMaker Processing · CPU &amp; GPU</span>
       <span class="chip" style="--c:var(--pink)">EventBridge · Lambda</span>
       <span class="chip" style="--c:var(--blue)">OpenSearch</span>
     </div>
-    <div class="r cover-meta"><span>Model <b>movietag-film-focal-v1</b></span><span>Bölge <b>eu-central-1</b></span><span>Ekim 2026</span></div>
+    <div class="r cover-meta"><span>Model <b>movietag-film-focal-v1</b></span><span>Region <b>eu-central-1 · eu-west-1</b></span><span>Ekim 2026</span></div>
   </div>
   <div class="strip-wrap" aria-hidden="true">
     <div class="strip">
       <div class="scan"></div>
-      <div class="frame f1"><span class="ftag g">micro-genre · action<b>0.55</b></span></div>
-      <div class="frame f2"><span class="ftag">suspense<b>0.62</b></span></div>
-      <div class="frame f3"><span class="ftag">military<b>0.58</b></span></div>
-      <div class="frame f4"><span class="ftag">music<b>0.62</b></span></div>
+      <div class="frame f1"><span class="ftag g">micro-genre · action<b>0.27</b></span></div>
+      <div class="frame f2"><span class="ftag">suspense<b>0.67</b></span></div>
+      <div class="frame f3"><span class="ftag">death<b>0.51</b></span></div>
+      <div class="frame f4"><span class="ftag">music<b>0.52</b></span></div>
     </div>
   </div>
 </section>
@@ -370,12 +378,12 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
   <h2 class="r title">Sunumun akışı</h2>
   <div class="body">
     <div class="agenda">
-      <div class="r ag"><span class="ag-n">01</span><h3>Bağlam ve hedef</h3><p>CMS türünden içerik düzeyinde sinyale; uçtan uca akışa genel bakış.</p></div>
-      <div class="r ag"><span class="ag-n">02</span><h3>Kullanılan modeller</h3><p>CLIP, CLAP, MPNet kodlayıcıları ve MovieTag FiLM + Focal mimarisi, eğitim ve model seçimi.</p></div>
-      <div class="r ag"><span class="ag-n">03</span><h3>Filmden micro-genre’ye</h3><p>Segmentleme, özellik çıkarımı, baskınlık skoru ve gerçek model çıktısı.</p></div>
-      <div class="r ag"><span class="ag-n">04</span><h3>Canlıya alma mimarisi</h3><p>AWS kaynakları, çevrimdışı model imajı ve tek komutla dağıtım.</p></div>
-      <div class="r ag"><span class="ag-n">05</span><h3>Akış detayları</h3><p>İdempotent iş başlatma, doğrulama kapıları, sürümlü yayın ve özellik şalteri.</p></div>
-      <div class="r ag"><span class="ag-n">06</span><h3>Operasyon ve sonuçlar</h3><p>Güvenlik, doğrulama kanıtları, bilinen sınırlar ve yol haritası.</p></div>
+      <div class="r ag"><span class="ag-n">01</span><h3>Bağlam ve hedef</h3><p>CMS genre’dan içerik seviyesinde sinyale; end-to-end akışa genel bakış.</p></div>
+      <div class="r ag"><span class="ag-n">02</span><h3>Modeller</h3><p>CLIP, CLAP, MPNet encoder’ları ve MovieTag FiLM + Focal mimarisi, training ve model seçimi.</p></div>
+      <div class="r ag"><span class="ag-n">03</span><h3>Filmden micro-genre’ye</h3><p>Segmentation, embedding extraction, dominance score ve 9 full-length film sonucu.</p></div>
+      <div class="r ag"><span class="ag-n">04</span><h3>Deployment mimarisi</h3><p>AWS servisleri, offline model image ve tek komutla deploy.</p></div>
+      <div class="r ag"><span class="ag-n">05</span><h3>Pipeline detayları</h3><p>Idempotent job başlatma, validation gate’leri, versioned publish, feature flag ve security.</p></div>
+      <div class="r ag"><span class="ag-n">06</span><h3>Sonuçlar ve GPU</h3><p>Full-length film sonuçları, GPU pipeline ve roadmap.</p></div>
     </div>
   </div>
 </section>
@@ -383,35 +391,35 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 03 · PROBLEM -->
 <section class="slide" data-title="Problem ve hedef" data-section="01 · Bağlam">
   <div class="r kicker">01 · Bağlam</div>
-  <h2 class="r title">Tek bir “genre” alanı, filmin ne anlattığını söylemiyor</h2>
-  <p class="r lead">CMS’teki tür bilgisi elle girilir ve kabadır. Hedef; videonun kendisinden içerik düzeyinde etiketler üretmek ve bunları öneri sistemine doğrulanmış, sürümlü ve geri alınabilir biçimde sunmak.</p>
+  <h2 class="r title">CMS genre’dan içerik seviyesinde micro-genre sinyaline</h2>
+  <p class="r lead">MovieTag modeli filmin görüntü, ses ve metninden micro-tag ve micro-genre üretiyor. Bu çalışmada modeli kendi AWS altyapımıza taşıyıp full-length filmler için event-driven, versioned ve rollback’e hazır bir pipeline olarak recommender’a açtık.</p>
   <div class="body">
     <div class="cmp">
       <div class="r card top" style="--c:var(--slate)">
-        <div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>Bugün · CMS kaydı</h3><div class="sub">tek, elle girilen kategori</div></div></div>
-        <div class="kv">napoleon → genre</div>
+        <div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>Mevcut · CMS kaydı</h3><div class="sub">editoryal, film seviyesinde tek kategori</div></div></div>
+        <div class="kv">napoleon-full → genre</div>
         <div class="big-tag"><span class="chip" style="--c:var(--slate)">Drama</span></div>
         <ul class="list" style="--c:var(--slate)">
-          <li>Sahne, atmosfer ve tema bilgisi yok</li>
-          <li>Öneri sistemi yalnızca kaba kategori sinyaliyle çalışır</li>
+          <li>Film başına tek genre bilgisi</li>
+          <li>Recommender bugün bu kategori sinyalini kullanıyor</li>
         </ul>
       </div>
       <div class="r arrow"><svg class="i"><use href="#i-arrow"/></svg></div>
       <div class="r card top" style="--c:var(--gold)">
-        <div class="card-h"><span class="ic"><svg class="i"><use href="#i-film"/></svg></span><div><h3>Hedef · videodan çıkarım</h3><div class="sub">görüntü + ses + metin, güven skorlu</div></div></div>
-        <div class="kv">napoleon → micro_genres · micro_tags</div>
-        <div class="big-tag"><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--teal)">military</span><span class="chip" style="--c:var(--teal)">violence</span><span class="chip" style="--c:var(--teal)">suspense</span><span class="chip" style="--c:var(--teal)">death</span><span class="chip" style="--c:var(--teal)">music</span></div>
+        <div class="card-h"><span class="ic"><svg class="i"><use href="#i-film"/></svg></span><div><h3>Yeni · full-length film inference</h3><div class="sub">vision + audio + text, confidence skorlu</div></div></div>
+        <div class="kv">napoleon-full → micro_genres · micro_tags</div>
+        <div class="big-tag"><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">thriller</span><span class="chip" style="--c:var(--teal)">suspense</span><span class="chip" style="--c:var(--teal)">death</span><span class="chip" style="--c:var(--teal)">violence</span><span class="chip" style="--c:var(--teal)">war</span><span class="chip" style="--c:var(--teal)">military</span></div>
         <ul class="list">
-          <li>Model sürümü, kaynak video sürümü ve iş kimliğiyle izlenebilir kayıtlar</li>
-          <li>Özellik şalteriyle kontrollü tüketim</li>
+          <li>Model version, kaynak video version ve job id ile izlenebilir kayıtlar</li>
+          <li>Feature flag ile kontrollü tüketim</li>
         </ul>
       </div>
     </div>
     <div class="grid g4">
-      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><h3 style="font-size:15px">Olay güdümlü</h3></div><p>S3’e yükleme akışı başlatır; manuel adım yok.</p></div>
-      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-repeat"/></svg></span><h3 style="font-size:15px">İdempotent</h3></div><p>Aynı nesne sürümü + model/kod sürümü = tek iş.</p></div>
-      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-shield"/></svg></span><h3 style="font-size:15px">Doğrulanmış yayın</h3></div><p>Kimlik, şema ve güven skoru kontrolünden geçmeyen sonuç yayınlanmaz.</p></div>
-      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-branch"/></svg></span><h3 style="font-size:15px">Güvenli devreye alma</h3></div><p>Sürümlü indeks, aktif alias ve özellik şalteri.</p></div>
+      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><h3 style="font-size:15px">Event-driven</h3></div><p>S3 upload pipeline’ı tetikler; manuel adım yok.</p></div>
+      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-repeat"/></svg></span><h3 style="font-size:15px">Idempotent</h3></div><p>Aynı object version + model/code version = tek job.</p></div>
+      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-shield"/></svg></span><h3 style="font-size:15px">Validated publish</h3></div><p>Identity, schema ve confidence kontrolünden geçen sonuç publish edilir.</p></div>
+      <div class="r card" style="padding:14px 16px"><div class="card-h" style="margin-bottom:6px"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-branch"/></svg></span><h3 style="font-size:15px">Safe rollout</h3></div><p>Versioned index, active alias ve feature flag.</p></div>
     </div>
   </div>
 </section>
@@ -419,62 +427,62 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 04 · UÇTAN UCA -->
 <section class="slide" data-title="Uçtan uca bakış" data-section="01 · Bağlam">
   <div class="r kicker">01 · Bağlam</div>
-  <h2 class="r title">Uçtan uca akış: yüklemeden öneri sinyaline</h2>
-  <p class="r lead">Beş aşamalı, asenkron ve sunucusuz bir orkestrasyon. Her aşama bir öncekinin ürettiği olayla tetiklenir.</p>
+  <h2 class="r title">End-to-end akış: upload’dan recommender sinyaline</h2>
+  <p class="r lead">Beş aşamalı, asenkron ve serverless orkestrasyon. Her aşama bir öncekinin ürettiği event ile tetiklenir.</p>
   <div class="body" style="gap:22px">
     <div class="flow5">
-      <div class="r stg" style="--c:var(--gold)"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-upload"/></svg></span><div class="no">AŞAMA 1</div><h3>Alım</h3><p>Düşük çözünürlüklü video <code>incoming/</code>, CMS kaydı <code>cms/</code> altına S3’e yüklenir. HD kaynaklar modele girmez.</p></div>
-      <div class="r stg" style="--c:var(--pink)"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><div class="no">AŞAMA 2</div><h3>Tetikleme</h3><p>EventBridge “Object Created” olayı Starter Lambda’yı çağırır; iş DynamoDB’de koşullu yazmayla talep edilir.</p></div>
-      <div class="r stg" style="--c:var(--teal)"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div class="no">AŞAMA 3</div><h3>Çıkarım</h3><p>SageMaker Processing, MovieTag imajıyla videoyu segmentler, gömer ve etiketler.</p></div>
-      <div class="r stg" style="--c:var(--orange)"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-shield"/></svg></span><div class="no">AŞAMA 4</div><h3>Doğrulama &amp; Yayın</h3><p>Publisher Lambda sonucu kimlik ve şema açısından doğrular, sürümlü OpenSearch indeksine yazar.</p></div>
-      <div class="r stg" style="--c:var(--blue)"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-eye"/></svg></span><div class="no">AŞAMA 5</div><h3>Tüketim</h3><p>Reader Lambda; şalter açıksa CMS türüne ek olarak micro-tag ve micro-genre döndürür.</p></div>
+      <div class="r stg" style="--c:var(--gold)"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-upload"/></svg></span><div class="no">STAGE 1</div><h3>Ingest</h3><p>Full-length filmin low-res kopyası <code>incoming/</code>, CMS kaydı <code>cms/</code> altına S3’e yüklenir.</p></div>
+      <div class="r stg" style="--c:var(--pink)"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><div class="no">STAGE 2</div><h3>Trigger</h3><p>EventBridge “Object Created” event’i Starter Lambda’yı çağırır; job DynamoDB’de conditional write ile claim edilir.</p></div>
+      <div class="r stg" style="--c:var(--teal)"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div class="no">STAGE 3</div><h3>Inference</h3><p>SageMaker Processing, MovieTag image ile filmi segmentlere ayırır, embedding çıkarır ve etiketler.</p></div>
+      <div class="r stg" style="--c:var(--orange)"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-shield"/></svg></span><div class="no">STAGE 4</div><h3>Validate &amp; Publish</h3><p>Publisher Lambda sonucu identity ve schema açısından doğrular, versioned OpenSearch index’ine yazar.</p></div>
+      <div class="r stg" style="--c:var(--blue)"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-eye"/></svg></span><div class="no">STAGE 5</div><h3>Serve</h3><p>Reader Lambda; feature flag açıksa CMS genre’a ek olarak micro-tag ve micro-genre döner.</p></div>
     </div>
     <div class="r contract">
-      <span class="lab">Girdi</span><span><code>incoming/&lt;content_id&gt;.mp4</code> + <code>cms/&lt;content_id&gt;.json</code></span>
+      <span class="lab">Input</span><span><code>incoming/&lt;content_id&gt;.mp4</code> + <code>cms/&lt;content_id&gt;.json</code></span>
       <svg class="i"><use href="#i-arrow"/></svg>
-      <span class="lab">Çıktı</span><span><code>{ content_id, genre, micro_tags[], micro_genres[] }</code></span>
+      <span class="lab">Output</span><span><code>{ content_id, genre, micro_tags[], micro_genres[] }</code></span>
     </div>
-    <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-film"/></svg><span>İçerik kimliği dosya adından türetilir; CMS kaydındaki <code>content_id</code> ile birebir eşleşmek zorundadır. Eşleşmeyen veya eksik alanlı (<code>title</code>, <code>summary</code>, <code>genre</code>) kayıtlar işlenmez.</span></div>
+    <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-film"/></svg><span>Content ID dosya adından türetilir ve CMS kaydındaki <code>content_id</code> ile eşleştirilir; <code>title</code>, <code>summary</code>, <code>genre</code> alanları zorunlu input contract’ıdır.</span></div>
   </div>
 </section>
 
 <!-- 05 · MODELLER -->
 <section class="slide" data-title="Kullanılan modeller" data-section="02 · Modeller">
   <div class="r kicker">02 · Modeller</div>
-  <h2 class="r title">Üç donuk kodlayıcı + eğitilmiş füzyon modeli</h2>
-  <p class="r lead">Önceden eğitilmiş kodlayıcılar her modaliteyi gömme dizisine çevirir; projeye özel eğitilen MovieTag sınıflandırıcısı bu dizileri birleştirip etiket olasılıkları üretir.</p>
+  <h2 class="r title">Üç frozen encoder + eğitilmiş fusion modeli</h2>
+  <p class="r lead">Pre-trained encoder’lar her modaliteyi embedding dizisine çevirir; projeye özel eğitilen MovieTag classifier bu dizileri birleştirip label olasılıkları üretir.</p>
   <div class="body">
     <div class="grid g4">
       <div class="r card top model-card" style="--c:var(--teal)">
-        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-image"/></svg></span><div><h3>CLIP ViT-L/14</h3><div class="sub">OpenAI · görüntü</div></div></div>
-        <p>Kare başına L2-normalize gömme. Çıkarımda her 10. kare 224×224’e ölçeklenip kodlanır.</p>
-        <div class="chips"><span class="chip sm" style="--c:var(--teal)">768-d</span><span class="chip sm" style="--c:var(--slate)">donuk</span></div>
+        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-image"/></svg></span><div><h3>CLIP ViT-L/14</h3><div class="sub">OpenAI · vision</div></div></div>
+        <p>Frame başına L2-normalize embedding. Inference’ta her 10. frame 224×224’e ölçeklenip encode edilir.</p>
+        <div class="chips"><span class="chip sm" style="--c:var(--teal)">768-d</span><span class="chip sm" style="--c:var(--slate)">frozen</span></div>
       </div>
       <div class="r card top model-card" style="--c:var(--pink)">
-        <div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-music"/></svg></span><div><h3>CLAP HTSAT</h3><div class="sub">LAION · ses · clap-htsat-unfused</div></div></div>
-        <p>Mono ses 10 sn pencerelere bölünür; her pencere ortak ses-metin uzayına projekte edilir.</p>
-        <div class="chips"><span class="chip sm" style="--c:var(--pink)">512-d</span><span class="chip sm" style="--c:var(--slate)">donuk</span></div>
+        <div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-music"/></svg></span><div><h3>CLAP HTSAT</h3><div class="sub">LAION · audio · clap-htsat-unfused</div></div></div>
+        <p>Mono audio 10 sn window’lara bölünür; her window ortak audio-text embedding uzayına projekte edilir.</p>
+        <div class="chips"><span class="chip sm" style="--c:var(--pink)">512-d</span><span class="chip sm" style="--c:var(--slate)">frozen</span></div>
       </div>
       <div class="r card top model-card" style="--c:var(--blue)">
-        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-type"/></svg></span><div><h3>all-mpnet-base-v2</h3><div class="sub">Sentence-Transformers · metin</div></div></div>
-        <p>İngilizce altyazı (SDH öncelikli); yoksa CMS başlık + özet. 512 token, maskeli ortalama havuzlama.</p>
-        <div class="chips"><span class="chip sm" style="--c:var(--blue)">768-d</span><span class="chip sm" style="--c:var(--slate)">donuk</span></div>
+        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-type"/></svg></span><div><h3>all-mpnet-base-v2</h3><div class="sub">Sentence-Transformers · text</div></div></div>
+        <p>İngilizce altyazı (SDH öncelikli); yoksa CMS title + summary. 512 token, masked mean pooling.</p>
+        <div class="chips"><span class="chip sm" style="--c:var(--blue)">768-d</span><span class="chip sm" style="--c:var(--slate)">frozen</span></div>
       </div>
       <div class="r card top model-card" style="--c:var(--gold)">
-        <div class="card-h"><span class="ic"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>MovieTag FiLM</h3><div class="sub">proje modeli · füzyon + sınıflandırma</div></div></div>
-        <p>Zaman transformer’ları, FiLM koşullandırma ve çok etiketli başlık. Focal Loss ile eğitildi.</p>
-        <div class="chips"><span class="chip sm" style="--c:var(--gold)">eğitilmiş</span><span class="chip sm" style="--c:var(--gold)">multi-label</span></div>
+        <div class="card-h"><span class="ic"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>MovieTag FiLM</h3><div class="sub">proje modeli · fusion + classification</div></div></div>
+        <p>Temporal transformer’lar, FiLM conditioning ve multi-label head. Focal Loss ile eğitildi.</p>
+        <div class="chips"><span class="chip sm" style="--c:var(--gold)">trained</span><span class="chip sm" style="--c:var(--gold)">multi-label</span></div>
       </div>
     </div>
     <div class="r card" style="padding:14px 18px;display:flex;gap:28px;align-items:center">
-      <span class="dim mono" style="font-size:11.5px;letter-spacing:.12em;white-space:nowrap">ARTEFAKTLAR</span>
-      <span><code>epoch_best.pt</code> <span class="muted" style="font-size:13px">en iyi checkpoint</span></span>
-      <span><code>best_thresholds.npy</code> <span class="muted" style="font-size:13px">sınıf başına eşikler</span></span>
-      <span><code>label_selection.xlsx</code> <span class="muted" style="font-size:13px">etiket + Type taksonomisi</span></span>
+      <span class="dim mono" style="font-size:11.5px;letter-spacing:.12em;white-space:nowrap">ARTIFACTS</span>
+      <span><code>epoch_best.pt</code> <span class="muted" style="font-size:13px">best checkpoint</span></span>
+      <span><code>best_thresholds.npy</code> <span class="muted" style="font-size:13px">class-wise threshold’lar</span></span>
+      <span><code>label_selection.xlsx</code> <span class="muted" style="font-size:13px">label + Type taksonomisi</span></span>
     </div>
     <div class="grid g2">
-      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-music"/></svg><span><b>Eğitim verisi hazırlığı:</b> Whisper <i>medium</i> ile konuşma tanıma; CLAP zero-shot ses ipuçları (<code>&lt;MUSIC&gt;</code>, <code>&lt;EXPLOSION&gt;</code>, <code>&lt;GUNSHOT&gt;</code> …) metne zaman sırasıyla eklenir.</span></div>
-      <div class="r note" style="--c:var(--slate)"><svg class="i"><use href="#i-box"/></svg><span><b>StubModel:</b> CMS metninden deterministik etiket üreten yer tutucu. AWS akışını gerçek model olmadan uçtan uca test etmek için kullanıldı.</span></div>
+      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-music"/></svg><span><b>Training data hazırlığı:</b> Whisper <i>medium</i> ile ASR; CLAP zero-shot audio cue’ları (<code>&lt;MUSIC&gt;</code>, <code>&lt;EXPLOSION&gt;</code>, <code>&lt;GUNSHOT&gt;</code> …) transcript’e zaman sırasıyla eklenir.</span></div>
+      <div class="r note" style="--c:var(--slate)"><svg class="i"><use href="#i-box"/></svg><span><b>StubModel:</b> Deterministik placeholder model; AWS pipeline’ını modelden bağımsız olarak end-to-end doğrulamak için kullanıldı.</span></div>
     </div>
   </div>
 </section>
@@ -482,33 +490,33 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 06 · MİMARİ -->
 <section class="slide" data-title="MovieTag mimarisi" data-section="02 · Modeller">
   <div class="r kicker">02 · Modeller</div>
-  <h2 class="r title">MovieTag mimarisi: görüntü ana akış, ses ve metin bağlam</h2>
+  <h2 class="r title">MovieTag mimarisi: vision ana stream, audio ve text context</h2>
   <div class="body" style="margin-top:14px">
     <svg class="r dg" viewBox="0 0 1136 340" width="1136" height="340" role="img" aria-label="MovieTag model mimarisi">
       <defs><marker id="am" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b98ad"/></marker></defs>
       <rect class="grp" x="188" y="4" width="204" height="332" rx="16"/>
-      <text class="gl" x="290" y="26">ÖNCEDEN EĞİTİLMİŞ · DONUK</text>
+      <text class="gl" x="290" y="26">PRE-TRAINED · FROZEN</text>
       <rect class="grp" x="408" y="4" width="726" height="332" rx="16"/>
-      <text class="gl" x="771" y="26">MOVIETAG · EĞİTİLEN BİLEŞENLER (epoch_best.pt)</text>
+      <text class="gl" x="771" y="26">MOVIETAG · TRAINED (epoch_best.pt)</text>
 
-      <g class="nd c-gold" transform="translate(0 44)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Kareler</text><text class="ns" x="80" y="44">her 10. kare · 224×224</text></g>
-      <g class="nd c-gold" transform="translate(0 154)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Ses</text><text class="ns" x="80" y="44">mono · 10 sn pencereler</text></g>
-      <g class="nd c-gold" transform="translate(0 264)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Metin</text><text class="ns" x="80" y="44">altyazı · yoksa CMS özeti</text></g>
+      <g class="nd c-gold" transform="translate(0 44)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Frames</text><text class="ns" x="80" y="44">her 10. frame · 224×224</text></g>
+      <g class="nd c-gold" transform="translate(0 154)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Audio</text><text class="ns" x="80" y="44">mono · 10 sn window</text></g>
+      <g class="nd c-gold" transform="translate(0 264)"><rect class="box" width="160" height="60" rx="12"/><text class="nt" x="80" y="26">Text</text><text class="ns" x="80" y="44">altyazı · fallback: CMS</text></g>
 
-      <g class="nd c-teal" transform="translate(200 44)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">CLIP ViT-L/14</text><text class="ns" x="90" y="44">T kare × 768</text></g>
-      <g class="nd c-pink" transform="translate(200 154)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">CLAP HTSAT</text><text class="ns" x="90" y="44">W pencere × 512</text></g>
-      <g class="nd c-blue" transform="translate(200 264)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">all-mpnet-base-v2</text><text class="ns" x="90" y="44">512 token → ortalama → 768</text></g>
+      <g class="nd c-teal" transform="translate(200 44)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">CLIP ViT-L/14</text><text class="ns" x="90" y="44">T frame × 768</text></g>
+      <g class="nd c-pink" transform="translate(200 154)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">CLAP HTSAT</text><text class="ns" x="90" y="44">W window × 512</text></g>
+      <g class="nd c-blue" transform="translate(200 264)"><rect class="box" width="180" height="60" rx="12"/><text class="nt" x="90" y="26">all-mpnet-base-v2</text><text class="ns" x="90" y="44">512 token → mean pool → 768</text></g>
 
-      <g class="nd c-violet" transform="translate(420 44)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Görsel Transformer</text><text class="ns" x="95" y="44">2 katman · 8 kafa · [CLS] → v</text></g>
-      <g class="nd c-violet" transform="translate(420 154)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Ses Transformer</text><text class="ns" x="95" y="44">[CLS] → Linear 512→768 → a</text></g>
-      <g class="nd c-violet" transform="translate(420 264)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Metin projeksiyonu</text><text class="ns" x="95" y="44">Linear 768→768 → t</text></g>
+      <g class="nd c-violet" transform="translate(420 44)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Visual Transformer</text><text class="ns" x="95" y="44">2 layer · 8 head · [CLS] → v</text></g>
+      <g class="nd c-violet" transform="translate(420 154)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Audio Transformer</text><text class="ns" x="95" y="44">[CLS] → Linear 512→768 → a</text></g>
+      <g class="nd c-violet" transform="translate(420 264)"><rect class="box" width="190" height="60" rx="12"/><text class="nt" x="95" y="26">Text projection</text><text class="ns" x="95" y="44">Linear 768→768 → t</text></g>
 
-      <g class="nd c-orange" transform="translate(650 44)"><rect class="box" width="200" height="60" rx="12"/><text class="nt" x="100" y="26">FiLM füzyonu</text><text class="ns" x="100" y="44">LayerNorm( γ(c) ⊙ v + β(c) )</text></g>
-      <g class="nd c-blue" transform="translate(650 209)"><rect class="box" width="200" height="60" rx="12"/><text class="nt" x="100" y="26">Bağlam vektörü c</text><text class="ns" x="100" y="44">Linear([ t ; a ]) 1536 → 768</text></g>
+      <g class="nd c-orange" transform="translate(650 44)"><rect class="box" width="200" height="60" rx="12"/><text class="nt" x="100" y="26">FiLM fusion</text><text class="ns" x="100" y="44">LayerNorm( γ(c) ⊙ v + β(c) )</text></g>
+      <g class="nd c-blue" transform="translate(650 209)"><rect class="box" width="200" height="60" rx="12"/><text class="nt" x="100" y="26">Context vector c</text><text class="ns" x="100" y="44">Linear([ t ; a ]) 1536 → 768</text></g>
 
-      <g class="nd c-orange" transform="translate(890 44)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Sınıflandırıcı başlık</text><text class="ns" x="118" y="44">768→512 · LN · GELU · Dropout 0.3 → N</text></g>
-      <g class="nd c-green" transform="translate(890 154)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Sigmoid + sınıf eşikleri</text><text class="ns" x="118" y="44">best_thresholds.npy</text></g>
-      <g class="nd c-gold" transform="translate(890 264)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Segment etiketleri</text><text class="ns" x="118" y="44">çok etiketli · “No label” hariç</text></g>
+      <g class="nd c-orange" transform="translate(890 44)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Classifier head</text><text class="ns" x="118" y="44">768→512 · LN · GELU · Dropout 0.3 → N</text></g>
+      <g class="nd c-green" transform="translate(890 154)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Sigmoid + class threshold</text><text class="ns" x="118" y="44">best_thresholds.npy</text></g>
+      <g class="nd c-gold" transform="translate(890 264)"><rect class="box" width="236" height="60" rx="12"/><text class="nt" x="118" y="26">Segment label’ları</text><text class="ns" x="118" y="44">multi-label · “No label” hariç</text></g>
 
       <path class="edge flow" d="M160 74H198" marker-end="url(#am)"/>
       <path class="edge flow" d="M160 184H198" marker-end="url(#am)"/>
@@ -529,9 +537,9 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       <path class="edge flow" d="M1008 214V262" marker-end="url(#am)"/>
     </svg>
     <div class="grid g3">
-      <div class="r note" style="--c:var(--orange)"><svg class="i"><use href="#i-layers"/></svg><span><b>FiLM koşullandırma:</b> c vektörü görsel temsili boyut boyut ölçekler (γ) ve kaydırır (β); “ne duyuluyor, ne konuşuluyor” bilgisi görüntüyü yeniden ağırlıklandırır.</span></div>
-      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-target"/></svg><span><b>Kimlik başlatma:</b> γ=1, β=0 ile başlar; eğitim saf görsel modelden başlayıp ses/metin etkisini kademeli öğrenir.</span></div>
-      <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-tag"/></svg><span><b>Çok etiketli çıktı:</b> <code>label_selection.xlsx</code>’teki N etiket + “No label” için bağımsız sigmoid; her sınıfın kendi eşiği vardır.</span></div>
+      <div class="r note" style="--c:var(--orange)"><svg class="i"><use href="#i-layers"/></svg><span><b>FiLM conditioning:</b> context vector c, visual temsili boyut bazında scale (γ) ve shift (β) eder; “ne duyuluyor, ne konuşuluyor” bilgisi görüntüyü yeniden ağırlıklandırır.</span></div>
+      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-target"/></svg><span><b>Identity init:</b> γ=1, β=0 ile başlar; training saf vision modelinden başlayıp audio/text etkisini kademeli öğrenir.</span></div>
+      <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-tag"/></svg><span><b>Multi-label output:</b> <code>label_selection.xlsx</code>’teki N label + “No label” için bağımsız sigmoid; her class’ın kendi threshold’u var.</span></div>
     </div>
   </div>
 </section>
@@ -539,36 +547,36 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 07 · EĞİTİM -->
 <section class="slide" data-title="Eğitim ve model seçimi" data-section="02 · Modeller">
   <div class="r kicker">02 · Modeller</div>
-  <h2 class="r title">Eğitim ve model seçimi: 10 deneylik karşılaştırma</h2>
+  <h2 class="r title">Training ve model seçimi: 10 deneylik karşılaştırma</h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1.05fr 1fr">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-chart"/></svg></span><div><h3>Deney matrisi</h3><div class="sub">run_experiment.py · aynı veri bölmesi</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-chart"/></svg></span><div><h3>Experiment matrix</h3><div class="sub">run_experiment.py · aynı data split</div></div></div>
         <div style="display:grid;gap:14px">
-          <div><div class="kv">Tek modlu taban çizgileri</div><div class="chips"><span class="chip" style="--c:var(--blue)">text</span><span class="chip" style="--c:var(--teal)">frame</span><span class="chip" style="--c:var(--pink)">audio</span></div></div>
-          <div><div class="kv">Füzyon stratejileri</div><div class="chips"><span class="chip" style="--c:var(--slate)">cross_attn</span><span class="chip" style="--c:var(--slate)">concat</span><span class="chip" style="--c:var(--slate)">add</span><span class="chip" style="--c:var(--orange)">film</span></div></div>
-          <div><div class="kv">Sınıf dengesizliği (FiLM üzerinde)</div><div class="chips"><span class="chip" style="--c:var(--slate)">pos_weight ≤ 5</span><span class="chip" style="--c:var(--slate)">pos_weight ≤ 20</span><span class="chip" style="--c:var(--gold);font-weight:700">★ focal · α = 0.6 → canlıda</span></div></div>
+          <div><div class="kv">Unimodal baseline’lar</div><div class="chips"><span class="chip" style="--c:var(--blue)">text</span><span class="chip" style="--c:var(--teal)">frame</span><span class="chip" style="--c:var(--pink)">audio</span></div></div>
+          <div><div class="kv">Fusion stratejileri</div><div class="chips"><span class="chip" style="--c:var(--slate)">cross_attn</span><span class="chip" style="--c:var(--slate)">concat</span><span class="chip" style="--c:var(--slate)">add</span><span class="chip" style="--c:var(--orange)">film</span></div></div>
+          <div><div class="kv">Class imbalance (FiLM üzerinde)</div><div class="chips"><span class="chip" style="--c:var(--slate)">pos_weight ≤ 5</span><span class="chip" style="--c:var(--slate)">pos_weight ≤ 20</span><span class="chip" style="--c:var(--gold);font-weight:700">★ focal · α = 0.6 → production</span></div></div>
         </div>
         <div style="margin-top:16px;padding:14px 16px;border-radius:12px;background:#080d17;border:1px solid var(--line)">
           <div class="kv" style="margin-bottom:8px">Focal Loss</div>
           <div style="font:italic 21px 'Cambria Math',Cambria,'Times New Roman',serif">FL(p<sub>t</sub>) = −α<sub>t</sub> (1 − p<sub>t</sub>)<sup>γ</sup> log p<sub>t</sub> <span style="font:13px var(--sans);color:var(--muted);margin-left:12px">γ = 2.0 · α = 0.6</span></div>
-          <p class="muted" style="font-size:12.8px;margin:8px 0 0">Kolay negatiflerin ağırlığını düşürür; α &gt; 0.5 pozitif etiketleri öne çıkararak recall darboğazını hedefler.</p>
+          <p class="muted" style="font-size:12.8px;margin:8px 0 0">Easy negative’lerin ağırlığını düşürür; α &gt; 0.5 positive label’ları öne çıkararak recall’u artırır.</p>
         </div>
       </div>
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-target"/></svg></span><div><h3>Eğitim ayarları</h3><div class="sub">train_multimodal.py</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-target"/></svg></span><div><h3>Training config</h3><div class="sub">train_multimodal.py</div></div></div>
         <div style="display:grid;grid-template-columns:130px 1fr;gap:9px 14px;font-size:13.5px">
-          <span class="dim">Optimizasyon</span><span>AdamW · lr = 1e-5</span>
-          <span class="dim">Süre</span><span>≤ 200 epoch · 20 epoch erken durdurma</span>
-          <span class="dim">Batch</span><span>8 (eğitim) · 1 (doğrulama)</span>
-          <span class="dim">Veri bölme</span><span>%85 / %5 / %10 · seed 42 · opsiyonel K-fold</span>
-          <span class="dim">Metin kodlayıcı</span><span>donuk (opsiyonel üst katman ince ayarı)</span>
-          <span class="dim">Model seçimi</span><span>en iyi doğrulama micro-F1 → <code>epoch_best.pt</code></span>
+          <span class="dim">Optimizer</span><span>AdamW · lr = 1e-5</span>
+          <span class="dim">Epoch</span><span>≤ 200 · early stopping 20</span>
+          <span class="dim">Batch size</span><span>8 (train) · 1 (validation)</span>
+          <span class="dim">Data split</span><span>%85 / %5 / %10 · seed 42 · opsiyonel K-fold</span>
+          <span class="dim">Text encoder</span><span>frozen (opsiyonel top-layer fine-tuning)</span>
+          <span class="dim">Model seçimi</span><span>en iyi validation micro-F1 → <code>epoch_best.pt</code></span>
         </div>
         <div style="margin-top:16px;padding:14px 16px;border-radius:12px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.28)">
-          <div class="kv" style="margin-bottom:8px;color:var(--green)">Sınıf başına eşik → best_thresholds.npy</div>
+          <div class="kv" style="margin-bottom:8px;color:var(--green)">Class-wise threshold → best_thresholds.npy</div>
           <div style="font:italic 19px 'Cambria Math',Cambria,'Times New Roman',serif">τ<sub>k</sub> = 0.7 · 0.5 + 0.3 · max(t*<sub>k</sub> , 0.3)</div>
-          <p class="muted" style="font-size:12.8px;margin:8px 0 0"><i>t*</i>: precision ≥ 0.6 koşuluyla F1’i en yükselten eşik (0.1–0.8 ızgarası). Destek &lt; 5 ise τ = 0.5. Sonuç τ ∈ [0.44 , 0.59] — aşırı uyumu sınırlar.</p>
+          <p class="muted" style="font-size:12.8px;margin:8px 0 0"><i>t*</i>: precision ≥ 0.6 koşuluyla F1’i maksimize eden threshold (0.1–0.8 grid). Support &lt; 5 ise τ = 0.5. Sonuç τ ∈ [0.44 , 0.59] — overfitting’i sınırlar.</p>
         </div>
       </div>
     </div>
@@ -578,19 +586,19 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 08 · ÇIKARIM ADIMLARI -->
 <section class="slide" data-title="Çıkarım hattı" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
-  <h2 class="r title">Filmden etikete: çıkarım hattı altı adımda</h2>
-  <p class="r lead">Processing konteynerinde worker, MovieTag <code>test_pipeline.py</code> betiğini alt süreç olarak çalıştırır. Tüm model ağırlıkları imajdadır; çalışma anında indirme yapılmaz.</p>
+  <h2 class="r title">Filmden label’a: 6 adımlı inference pipeline</h2>
+  <p class="r lead">Processing container’ında worker, MovieTag <code>test_pipeline.py</code>’yi subprocess olarak çalıştırır. Tüm model ağırlıkları image içinde; runtime’da download yok.</p>
   <div class="body">
     <div class="steps6">
-      <div class="r st" style="--c:var(--gold)"><div class="hd"><span class="num">1</span><svg class="i"><use href="#i-search"/></svg></div><h4>Akış seçimi</h4><p><code>ffprobe</code> ile en çok kanallı İngilizce ses ve İngilizce altyazı (SDH öncelikli) seçilir.</p></div>
-      <div class="r st" style="--c:var(--orange)"><div class="hd"><span class="num">2</span><svg class="i"><use href="#i-scissors"/></svg></div><h4>Segmentleme</h4><p>~300 sn hedef; <code>silencedetect</code> (−30 dB, ≥0.7 sn) ile en yakın sessizlikten kesilir.</p></div>
-      <div class="r st" style="--c:var(--teal)"><div class="hd"><span class="num">3</span><svg class="i"><use href="#i-layers"/></svg></div><h4>Gömme çıkarımı</h4><p>CLIP: her 10. kare · CLAP: 10 sn pencereler · metin: altyazı ya da CMS başlık + özet.</p></div>
-      <div class="r st" style="--c:var(--violet)"><div class="hd"><span class="num">4</span><svg class="i"><use href="#i-target"/></svg></div><h4>Segment tahmini</h4><p>Sigmoid olasılıklar sınıf eşikleriyle süzülür; “No label” elenir.</p></div>
-      <div class="r st" style="--c:var(--pink)"><div class="hd"><span class="num">5</span><svg class="i"><use href="#i-chart"/></svg></div><h4>Film düzeyi toplama</h4><p>skor = segment frekansı × ortalama olasılık; skor &lt; 0.05 olanlar elenir.</p></div>
-      <div class="r st" style="--c:var(--green)"><div class="hd"><span class="num">6</span><svg class="i"><use href="#i-tag"/></svg></div><h4>Taksonomi ayrımı</h4><p><code>Type = Genres</code> → micro_genres; diğer tüm Type’lar → micro_tags.</p></div>
+      <div class="r st" style="--c:var(--gold)"><div class="hd"><span class="num">1</span><svg class="i"><use href="#i-search"/></svg></div><h4>Stream seçimi</h4><p><code>ffprobe</code> ile en çok kanallı İngilizce audio ve İngilizce altyazı (SDH öncelikli) seçilir.</p></div>
+      <div class="r st" style="--c:var(--orange)"><div class="hd"><span class="num">2</span><svg class="i"><use href="#i-scissors"/></svg></div><h4>Segmentation</h4><p>~300 sn hedef; <code>silencedetect</code> (−30 dB, ≥0.7 sn) ile en yakın sessizlikten kesilir.</p></div>
+      <div class="r st" style="--c:var(--teal)"><div class="hd"><span class="num">3</span><svg class="i"><use href="#i-layers"/></svg></div><h4>Embedding extraction</h4><p>CLIP: her 10. frame · CLAP: 10 sn window · text: segment altyazısı ya da CMS title + summary.</p></div>
+      <div class="r st" style="--c:var(--violet)"><div class="hd"><span class="num">4</span><svg class="i"><use href="#i-target"/></svg></div><h4>Segment prediction</h4><p>Sigmoid olasılıklar class threshold’larıyla filtrelenir; “No label” elenir.</p></div>
+      <div class="r st" style="--c:var(--pink)"><div class="hd"><span class="num">5</span><svg class="i"><use href="#i-chart"/></svg></div><h4>Film-level aggregation</h4><p>score = segment frekansı × ortalama olasılık; score &lt; 0.05 elenir.</p></div>
+      <div class="r st" style="--c:var(--green)"><div class="hd"><span class="num">6</span><svg class="i"><use href="#i-tag"/></svg></div><h4>Taxonomy mapping</h4><p><code>Type = Genres</code> → micro_genres; diğer tüm Type’lar → micro_tags.</p></div>
     </div>
     <div class="r tl">
-      <div class="tl-head"><span>00:00:00</span><span class="lg"><span><i class="m1"></i>kare gömmeleri</span><span><i class="m2"></i>ses gömmeleri</span><span><i class="m3"></i>metin</span><span style="color:var(--gold)">┆ sessizlikten kesim</span><span class="dim">temsili · 2 sa 39 dk film ≈ 32 segment</span></span><span>02:39:00</span></div>
+      <div class="tl-head"><span>00:00:00</span><span class="lg"><span><i class="m1"></i>frame embedding</span><span><i class="m2"></i>audio embedding</span><span><i class="m3"></i>text</span><span style="color:var(--gold)">┆ sessizlikten kesim</span><span class="dim">Napoleon · 2 sa 39 dk ≈ 32 segment</span></span><span>02:38:53</span></div>
       <div class="wave" data-wave="10,9.4,10.6,9.8,10.2,9.5,10.4,10,9.7,10.4"></div>
       <div class="segs">
         <div class="seg" style="--w:10">S01<div class="md"><i class="m1"></i><i class="m2"></i><i class="m3"></i></div></div>
@@ -606,8 +614,8 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       </div>
     </div>
     <div class="grid g2" style="gap:12px">
-      <div class="r note" style="--c:var(--blue)"><svg class="i"><use href="#i-type"/></svg><span><b>Altyazı yoksa</b> segment metni olarak CMS başlık + özeti kullanılır (<code>--fallback-text</code>); bunun kaliteye etkisi gerçek içeriklerle ölçülmeli.</span></div>
-      <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg><span><b>Tek alt süreç:</b> worker, <code>test_pipeline.py</code>’yi geçici klasörde çalıştırır ve yalnızca <code>predictions.json</code> çıktısını okur.</span></div>
+      <div class="r note" style="--c:var(--blue)"><svg class="i"><use href="#i-type"/></svg><span><b>Text fallback:</b> altyazısı olmayan segmentlerde CMS title + summary kullanılır (<code>--fallback-text</code>); pipeline her filmde kesintisiz çalışır.</span></div>
+      <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg><span><b>Tek subprocess:</b> worker, <code>test_pipeline.py</code>’yi temp dizinde çalıştırır ve yalnızca <code>predictions.json</code> çıktısını okur.</span></div>
     </div>
   </div>
 </section>
@@ -615,85 +623,121 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 09 · SKORLAMA -->
 <section class="slide" data-title="Baskınlık skoru" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
-  <h2 class="r title">Segmentlerden film etiketine: baskınlık skoru</h2>
+  <h2 class="r title">Segmentlerden film label’ına: dominance score</h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1.45fr 1fr;align-items:start">
       <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="r formula"><span class="fn">skor(e)</span> = <span class="frac"><span>n<sub>e</sub></span><span>N</span></span> × <span><span class="ov">p</span><sub>e</sub></span>
-          <span style="font:13px/1.5 var(--sans);color:var(--muted);margin-left:14px">n<sub>e</sub>: etiketin eşiği geçtiği segment · N: toplam segment · p̄<sub>e</sub>: bu segmentlerdeki ortalama olasılık</span></div>
+        <div class="r formula"><span class="fn">score(e)</span> = <span class="frac"><span>n<sub>e</sub></span><span>N</span></span> × <span><span class="ov">p</span><sub>e</sub></span>
+          <span style="font:13px/1.5 var(--sans);color:var(--muted);margin-left:14px">n<sub>e</sub>: label’ın threshold’u geçtiği segment · N: toplam segment · p̄<sub>e</sub>: bu segmentlerdeki ortalama olasılık</span></div>
         <div class="r card" style="padding:14px 18px">
-          <div class="sc h"><span>Etiket</span><span>12 segment · temsili örnek</span><span style="text-align:right">n/N</span><span style="text-align:right">p̄</span><span style="text-align:right">skor</span></div>
+          <div class="sc h"><span>Label</span><span>12 segment · örnek hesap</span><span style="text-align:right">n/N</span><span style="text-align:right">p̄</span><span style="text-align:right">score</span></div>
           <div class="sc" style="--c:var(--gold)"><span class="lb">action<em>Genres → micro-genre</em></span><span class="cells" data-p="111011110101"></span><span class="nm">9/12</span><span class="nm">0.68</span><span class="sv">0.51</span></div>
           <div class="sc" style="--c:var(--teal)"><span class="lb">military<em>micro-tag</em></span><span class="cells" data-p="110111011001"></span><span class="nm">8/12</span><span class="nm">0.71</span><span class="sv">0.47</span></div>
           <div class="sc" style="--c:var(--teal)"><span class="lb">violence<em>micro-tag</em></span><span class="cells" data-p="011010110001"></span><span class="nm">6/12</span><span class="nm">0.64</span><span class="sv">0.32</span></div>
           <div class="sc" style="--c:var(--teal)"><span class="lb">suspense<em>micro-tag</em></span><span class="cells" data-p="001001001100"></span><span class="nm">4/12</span><span class="nm">0.60</span><span class="sv">0.20</span></div>
-          <div class="sc off" style="--c:var(--slate)"><span class="lb">romance<em>skor &lt; 0.05 → elenir</em></span><span class="cells" data-p="000000000010"></span><span class="nm">1/12</span><span class="nm">0.52</span><span class="sv">0.04</span></div>
+          <div class="sc off" style="--c:var(--slate)"><span class="lb">romance<em>score &lt; 0.05 → elenir</em></span><span class="cells" data-p="000000000010"></span><span class="nm">1/12</span><span class="nm">0.52</span><span class="sv">0.04</span></div>
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="r card"><div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-chart"/></svg></span><h3>Neden frekans × olasılık?</h3></div>
-          <ul class="list"><li><b>Frekans</b> tek bir sahnede beliren etiketleri bastırır; filmin geneline yayılan temaları öne çıkarır.</li><li><b>Ortalama olasılık</b> modelin o segmentlerdeki kesinliğini taşır.</li><li>Etiketler skora göre azalan sırada döner.</li></ul></div>
-        <div class="r card"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-target"/></svg></span><h3>Canlı adaptör ayarları</h3></div>
-          <ul class="list" style="--c:var(--teal)"><li><code>prediction_threshold: 0</code> → sınıf başına ayarlı eşikler</li><li><code>--min-tag-occurrances 1</code> → kısa kesitlerde tek segment yeterli</li><li>Tek segmentte N = n = 1 → skor = olasılık</li><li>Her iki liste de boş olmamalı; aksi halde yayın reddedilir</li></ul></div>
+          <ul class="list"><li><b>Frekans</b> tek sahnelik label’ları bastırır; filmin geneline yayılan temaları öne çıkarır.</li><li><b>Ortalama olasılık</b> modelin o segmentlerdeki confidence’ını taşır.</li><li>Label’lar score’a göre azalan sırada döner.</li></ul></div>
+        <div class="r card"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-target"/></svg></span><h3>Production adapter ayarları</h3></div>
+          <ul class="list" style="--c:var(--teal)"><li><code>prediction_threshold: 0</code> → class-wise tuned threshold’lar</li><li><code>min-tag-score 0.05</code> → nadir label’lar elenir</li><li>~300 sn segment → 2 saatlik filmde ~24 segment</li><li>Her iki liste de dolu olmalı; aksi halde publish yapılmaz</li></ul></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 10 · NAPOLEON -->
-<section class="slide" data-title="Gerçek çıktı: Napoleon" data-section="03 · Filmden micro-genre’ye">
+<section class="slide" data-title="Full-length film: Napoleon" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
-  <h2 class="r title">Gerçek çıktı: Napoleon savaş kesiti (40 sn)</h2>
-  <p class="r lead">Doğrulama yığınında (<code>micro-genre-film-smoke</code>) gerçek checkpoint ile işlendi. CMS türü “Drama” iken model sahnenin içeriğini yakaladı.</p>
+  <h2 class="r title">Full-length film çıktısı: Napoleon (2 sa 39 dk)</h2>
+  <p class="r lead">Filmin tamamı ~32 segment olarak işlendi. CMS genre “Drama” iken model filmin aksiyon, savaş ve gerilim karakterini film seviyesinde yakaladı.</p>
   <div class="body">
     <div class="grid" style="grid-template-columns:280px 1fr 300px;align-items:stretch">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>Girdi</h3><div class="sub">cms/napoleon.json</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>Input</h3><div class="sub">cms/napoleon-full.json</div></div></div>
         <pre class="code" style="font-size:11.5px;padding:12px 14px;white-space:pre-wrap">{
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
   <span class="tk">"title"</span>: <span class="ts">"Napoleon"</span>,
-  <span class="tk">"summary"</span>: <span class="ts">"A historical drama about Napoleon Bonaparte. …"</span>,
+  <span class="tk">"summary"</span>: <span class="ts">"A historical drama following Napoleon Bonaparte."</span>,
   <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>
 }</pre>
-        <ul class="list" style="--c:var(--slate);margin-top:12px"><li>İngilizce ses + altyazılı, düşük çözünürlüklü kesit</li><li>Tek segment → skor = olasılık</li></ul>
+        <ul class="list" style="--c:var(--slate);margin-top:12px"><li>İngilizce audio + altyazılı full-length film</li><li>~32 segment · CPU job 6 sa 35 dk</li></ul>
       </div>
       <div class="r card bars">
-        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-chart"/></svg></span><div><h3>Model çıktısı</h3><div class="sub">movietag-film-focal-v1 · demo-v1</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-chart"/></svg></span><div><h3>Model output</h3><div class="sub">movietag-film-focal-v1 · score = frekans × olasılık</div></div></div>
         <div class="grp-t" lang="en">micro_genres</div>
-        <div class="bar-row" style="--c:var(--gold)"><span>action</span><span class="bar"><span style="--v:54.7%"></span></span><span class="v">0.547</span></div>
-        <div class="grp-t" lang="en" style="margin-top:14px">micro_tags</div>
-        <div class="bar-row" style="--c:var(--teal)"><span>music</span><span class="bar"><span style="--v:62.4%"></span></span><span class="v">0.624</span></div>
-        <div class="bar-row" style="--c:var(--teal)"><span>suspense</span><span class="bar"><span style="--v:62.3%"></span></span><span class="v">0.623</span></div>
-        <div class="bar-row" style="--c:var(--teal)"><span>death</span><span class="bar"><span style="--v:60.9%"></span></span><span class="v">0.609</span></div>
-        <div class="bar-row" style="--c:var(--teal)"><span>violence</span><span class="bar"><span style="--v:60.4%"></span></span><span class="v">0.604</span></div>
-        <div class="bar-row" style="--c:var(--teal)"><span>military</span><span class="bar"><span style="--v:58.0%"></span></span><span class="v">0.580</span></div>
+        <div class="bar-row" style="--c:var(--gold)"><span>action</span><span class="bar"><span style="--v:27.0%"></span></span><span class="v">0.270</span></div>
+        <div class="bar-row" style="--c:var(--gold)"><span>horror</span><span class="bar"><span style="--v:12.1%"></span></span><span class="v">0.121</span></div>
+        <div class="bar-row" style="--c:var(--gold)"><span>thriller</span><span class="bar"><span style="--v:11.5%"></span></span><span class="v">0.115</span></div>
+        <div class="grp-t" lang="en" style="margin-top:12px">micro_tags · top 6 / 11</div>
+        <div class="bar-row" style="--c:var(--teal)"><span>suspense</span><span class="bar"><span style="--v:66.8%"></span></span><span class="v">0.668</span></div>
+        <div class="bar-row" style="--c:var(--teal)"><span>music</span><span class="bar"><span style="--v:51.7%"></span></span><span class="v">0.517</span></div>
+        <div class="bar-row" style="--c:var(--teal)"><span>death</span><span class="bar"><span style="--v:50.6%"></span></span><span class="v">0.506</span></div>
+        <div class="bar-row" style="--c:var(--teal)"><span>bleak</span><span class="bar"><span style="--v:30.4%"></span></span><span class="v">0.304</span></div>
+        <div class="bar-row" style="--c:var(--teal)"><span>violence</span><span class="bar"><span style="--v:28.5%"></span></span><span class="v">0.285</span></div>
+        <div class="bar-row" style="--c:var(--teal)"><span>war</span><span class="bar"><span style="--v:12.1%"></span></span><span class="v">0.121</span></div>
         <div class="axis"><span></span><div><span>0</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.0</span></div><span></span></div>
       </div>
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-eye"/></svg></span><div><h3>Reader yanıtı</h3><div class="sub">EnableModelTags = "true"</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-eye"/></svg></span><div><h3>Reader response</h3><div class="sub">EnableModelTags = "true"</div></div></div>
         <pre class="code" style="font-size:11.5px;padding:12px 14px">{
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
   <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>,
   <span class="tk">"micro_tags"</span>: [
-    <span class="ts">"music"</span>, <span class="ts">"suspense"</span>,
-    <span class="ts">"death"</span>, <span class="ts">"violence"</span>,
-    <span class="ts">"military"</span>
+    <span class="ts">"suspense"</span>, <span class="ts">"music"</span>, <span class="ts">"death"</span>,
+    <span class="ts">"bleak"</span>, <span class="ts">"violence"</span>, <span class="ts">"scary"</span>,
+    <span class="ts">"disturbing"</span>, <span class="ts">"relationships"</span>,
+    <span class="ts">"war"</span>, <span class="ts">"sad"</span>, <span class="ts">"military"</span>
   ],
-  <span class="tk">"micro_genres"</span>: [<span class="ts">"action"</span>]
+  <span class="tk">"micro_genres"</span>: [
+    <span class="ts">"action"</span>, <span class="ts">"horror"</span>, <span class="ts">"thriller"</span>
+  ]
 }</pre>
-        <div class="note" style="--c:var(--gold);margin-top:12px;font-size:12.5px;padding:10px 12px"><svg class="i"><use href="#i-alert"/></svg><span>Tek içerikli duman testi; etiket kalitesi ölçümü değildir.</span></div>
+        <div class="note" style="--c:var(--green);margin-top:12px;font-size:12.5px;padding:10px 12px"><svg class="i"><use href="#i-check"/></svg><span>11 micro-tag + 3 micro-genre; label’lar score sırasıyla döner.</span></div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 10b · FULL-LENGTH SONUÇLAR -->
+<section class="slide" data-title="9 full-length film sonuçları" data-section="03 · Filmden micro-genre’ye">
+  <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
+  <h2 class="r title">9 full-length film: end-to-end sonuçlar</h2>
+  <p class="r lead">30.09.2026 batch’inde 8 film paralel submit edildi; Napoleon ile birlikte toplam <b>18 sa 12 dk</b> video işlendi ve tüm job’lar <b>COMPLETED</b> oldu.</p>
+  <div class="body">
+    <div class="r card" style="padding:12px 18px">
+      <table class="ftab">
+        <thead lang="en"><tr><th>Film</th><th>Süre</th><th>CMS genre</th><th>micro_genres</th><th>Top micro_tags</th><th style="text-align:right">CPU job</th></tr></thead>
+        <tbody>
+          <tr><td class="t">Napoleon</td><td class="m">2:38:53</td><td>Drama</td><td><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">thriller</span></td><td>suspense, music, death, bleak, violence, war</td><td class="m r2">6:35</td></tr>
+          <tr><td class="t">Enola Holmes 2</td><td class="m">2:10:57</td><td>Mystery Adventure</td><td><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">mystery</span></td><td>music, suspense, scary, death, children</td><td class="m r2">5:30</td></tr>
+          <tr><td class="t">Knives Out</td><td class="m">2:10:06</td><td>Mystery Crime Comedy</td><td><span class="chip" style="--c:var(--gold)">action</span></td><td>emotional, cinematography, children, family</td><td class="m r2">5:27</td></tr>
+          <tr><td class="t">Hugo</td><td class="m">2:06:21</td><td>Adventure Drama</td><td><span class="chip" style="--c:var(--gold)">horror</span></td><td>children, family, music, death, family bonds</td><td class="m r2">5:09</td></tr>
+          <tr><td class="t">The Social Network</td><td class="m">2:00:27</td><td>Biographical Drama</td><td><span class="chip" style="--c:var(--gold)">crime</span><span class="chip" style="--c:var(--gold)">action</span></td><td>suspense, teenagers, music, scary</td><td class="m r2">4:38</td></tr>
+          <tr><td class="t">Arrival</td><td class="m">1:56:23</td><td>Science Fiction Drama</td><td><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">mystery</span><span class="chip" style="--c:var(--gold)">sci-fi</span><span class="chip" style="--c:var(--gold)">crime</span></td><td>scary, bleak, suspense, cinematography, disturbing</td><td class="m r2">4:59</td></tr>
+          <tr><td class="t">The Adventures of Tintin</td><td class="m">1:46:52</td><td>Animation Adventure</td><td><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">animation</span></td><td>music, children, funny, animals, computer animation</td><td class="m r2">4:24</td></tr>
+          <tr><td class="t">Little Miss Sunshine</td><td class="m">1:42:34</td><td>Comedy Drama</td><td><span class="chip" style="--c:var(--gold)">horror</span></td><td>children, family, family bonds, scary, music</td><td class="m r2">4:15</td></tr>
+          <tr><td class="t">Shaun of the Dead</td><td class="m">1:39:20</td><td>Horror Comedy</td><td><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">comedy</span></td><td>scary, violence, death, disturbing, funny</td><td class="m r2">4:11</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g3" style="gap:12px">
+      <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg><span><b>9 / 9 COMPLETED</b> · her film için result.json, DynamoDB state ve OpenSearch dokümanı oluştu.</span></div>
+      <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-clock"/></svg><span><b>~2,5× film süresi</b> CPU’da (<code>ml.m5.xlarge</code>); 8 film paralel ~5,5 sa’te tamamlandı.</span></div>
+      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-zap"/></svg><span><b>GPU pipeline</b> ile aynı filmler için throughput artışı hedefleniyor (bölüm 06).</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- 11 · AWS MİMARİ -->
-<section class="slide" data-title="AWS mimarisi" data-section="04 · Canlıya alma">
-  <div class="r kicker">04 · Canlıya alma</div>
-  <h2 class="r title">Canlı mimari: olay güdümlü, sunucusuz orkestrasyon</h2>
-  <p class="r lead">Tek CloudFormation yığını. Her adım bir olayla tetiklenir; sürekli çalışan tek bileşen OpenSearch domainidir.</p>
+<section class="slide" data-title="AWS mimarisi" data-section="04 · Deployment">
+  <div class="r kicker">04 · Deployment</div>
+  <h2 class="r title">Production mimarisi: event-driven, serverless orkestrasyon</h2>
+  <p class="r lead">Tek CloudFormation stack. Her adım bir event ile tetiklenir; sürekli çalışan tek bileşen OpenSearch domain’i.</p>
   <div class="body" style="margin-top:14px;gap:10px">
-    <svg class="r dg" viewBox="0 0 1100 372" width="1136" height="384" role="img" aria-label="AWS dağıtım mimarisi">
+    <svg class="r dg" viewBox="0 0 1100 372" width="1136" height="384" role="img" aria-label="AWS deployment mimarisi">
       <defs><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b98ad"/></marker></defs>
       <!-- edges -->
       <path class="edge flow" d="M160 72H193" marker-end="url(#aa)"/>
@@ -705,99 +749,99 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       <path class="edge flow" d="M345 202H443Q455 202 455 190V149Q455 137 467 137H598Q610 137 610 125V106" marker-end="url(#aa)"/>
       <text class="el" x="530" y="130" text-anchor="middle">CMS → staging/</text>
       <path class="edge flow" d="M640 104V168" marker-end="url(#aa)"/>
-      <text class="el" x="648" y="140">koşullu PutItem</text>
+      <text class="el" x="648" y="140">conditional PutItem</text>
       <path class="edge flow" d="M825 104V168" marker-end="url(#aa)"/>
       <text class="el" x="833" y="140">result.json</text>
       <path class="edge flow" d="M885 104C885 140 1010 130 1010 168" marker-end="url(#aa)"/>
-      <text class="el" x="1018" y="136">durum olayı</text>
+      <text class="el" x="1018" y="136">state event</text>
       <path class="edge flow" d="M1010 234V298" marker-end="url(#aa)"/>
-      <text class="el" x="1018" y="270">tetikler</text>
+      <text class="el" x="1018" y="270">trigger</text>
       <path class="edge flow" d="M870 234C870 268 960 262 960 298" marker-end="url(#aa)"/>
-      <text class="el" x="862" y="276" text-anchor="end">sonucu oku</text>
+      <text class="el" x="862" y="276" text-anchor="end">read result</text>
       <path class="edge flow" d="M935 332H902" marker-end="url(#aa)"/>
       <path class="edge flow" d="M750 332H717" marker-end="url(#aa)"/>
       <path class="edge flow" d="M565 332H532" marker-end="url(#aa)"/>
       <path class="edge flow" d="M270 234V258Q270 270 282 270H628Q640 270 640 282V298" marker-end="url(#aa)"/>
       <text class="el" x="455" y="263" text-anchor="middle">CMS genre</text>
       <!-- nodes row 1 -->
-      <g class="nd c-gold" transform="translate(10 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">1</text><text class="nt" x="75" y="28">Film videosu</text><text class="ns" x="75" y="47">düşük çözünürlüklü kopya</text></g>
-      <g class="nd c-green" transform="translate(195 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">2</text><text class="nt" x="75" y="28">S3 · incoming/</text><text class="ns" x="75" y="47">sürümlü · &lt;id&gt;.mp4</text></g>
-      <g class="nd c-pink" transform="translate(380 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">3</text><text class="nt" x="75" y="28">EventBridge</text><text class="ns" x="75" y="47">Object Created kuralı</text></g>
-      <g class="nd c-orange" transform="translate(565 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">4</text><text class="nt" x="75" y="28">Starter Lambda</text><text class="ns" x="75" y="47">talep · kopya · başlat</text></g>
-      <g class="nd c-teal" transform="translate(750 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">5</text><text class="nt" x="75" y="28" style="font-size:12px">SageMaker Processing</text><text class="ns" x="75" y="47">MovieTag · ml.m5.xlarge</text></g>
-      <g class="nd c-slate" transform="translate(935 40)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">Amazon ECR</text><text class="ns" x="75" y="47">MovieTag imajı</text></g>
+      <g class="nd c-gold" transform="translate(10 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">1</text><text class="nt" x="75" y="28">Film videosu</text><text class="ns" x="75" y="47">full-length · low-res</text></g>
+      <g class="nd c-green" transform="translate(195 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">2</text><text class="nt" x="75" y="28">S3 · incoming/</text><text class="ns" x="75" y="47">versioned · &lt;id&gt;.mp4</text></g>
+      <g class="nd c-pink" transform="translate(380 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">3</text><text class="nt" x="75" y="28">EventBridge</text><text class="ns" x="75" y="47">Object Created rule</text></g>
+      <g class="nd c-orange" transform="translate(565 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">4</text><text class="nt" x="75" y="28">Starter Lambda</text><text class="ns" x="75" y="47">claim · stage · start</text></g>
+      <g class="nd c-teal" transform="translate(750 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">5</text><text class="nt" x="75" y="28" style="font-size:12px">SageMaker Processing</text><text class="ns" x="75" y="47">MovieTag · m5 / g4dn</text></g>
+      <g class="nd c-slate" transform="translate(935 40)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">Amazon ECR</text><text class="ns" x="75" y="47">MovieTag image</text></g>
       <!-- row 2 -->
       <g class="nd c-gold" transform="translate(10 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">CMS kaydı</text><text class="ns" x="75" y="47">title · summary · genre</text></g>
       <g class="nd c-green" transform="translate(195 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">S3 · cms/</text><text class="ns" x="75" y="47">&lt;id&gt;.json</text></g>
-      <g class="nd c-blue" transform="translate(565 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">DynamoDB</text><text class="ns" x="75" y="47">iş kaydı · durum</text></g>
+      <g class="nd c-blue" transform="translate(565 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">DynamoDB</text><text class="ns" x="75" y="47">job state</text></g>
       <g class="nd c-green" transform="translate(750 170)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">6</text><text class="nt" x="75" y="28">S3 · results/</text><text class="ns" x="75" y="47">&lt;job&gt;/result.json</text></g>
-      <g class="nd c-pink" transform="translate(935 170)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">7</text><text class="nt" x="75" y="28">EventBridge</text><text class="ns" x="75" y="47">Job State Change kuralı</text></g>
+      <g class="nd c-pink" transform="translate(935 170)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">7</text><text class="nt" x="75" y="28">EventBridge</text><text class="ns" x="75" y="47">Job State Change rule</text></g>
       <!-- row 3 -->
       <rect class="dlq" x="10" y="300" width="335" height="64" rx="12"/>
       <text class="nt" x="177" y="327" style="fill:var(--red)">SQS Dead-Letter Queue</text>
-      <text class="ns" x="177" y="346">EventBridge teslim + Lambda hataları · 2 tekrar sonrası · 14 gün</text>
-      <g class="nd c-slate" transform="translate(380 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">11</text><text class="nt" x="75" y="28">Öneri sistemi</text><text class="ns" x="75" y="47">sinyal tüketicisi</text></g>
-      <g class="nd c-orange" transform="translate(565 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">10</text><text class="nt" x="75" y="28">Reader Lambda</text><text class="ns" x="75" y="47">özellik şalteri</text></g>
+      <text class="ns" x="177" y="346">EventBridge delivery + Lambda hataları · 2 retry · 14 gün</text>
+      <g class="nd c-slate" transform="translate(380 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">11</text><text class="nt" x="75" y="28">Recommender</text><text class="ns" x="75" y="47">signal consumer</text></g>
+      <g class="nd c-orange" transform="translate(565 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">10</text><text class="nt" x="75" y="28">Reader Lambda</text><text class="ns" x="75" y="47">feature flag</text></g>
       <g class="nd c-violet" transform="translate(750 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">9</text><text class="nt" x="75" y="28">OpenSearch</text><text class="ns" x="75" y="47">micro-genre-active</text></g>
-      <g class="nd c-orange" transform="translate(935 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">8</text><text class="nt" x="75" y="28">Publisher Lambda</text><text class="ns" x="75" y="47">doğrula · yayınla</text></g>
+      <g class="nd c-orange" transform="translate(935 300)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">8</text><text class="nt" x="75" y="28">Publisher Lambda</text><text class="ns" x="75" y="47">validate · publish</text></g>
     </svg>
     <div class="r legend">
-      <span class="c-gold"><i></i>Kaynak</span><span class="c-green"><i></i>Depolama</span><span class="c-pink"><i></i>Olay yönlendirme</span><span class="c-orange"><i></i>Lambda</span><span class="c-blue"><i></i>Durum</span><span class="c-teal"><i></i>Model çıkarımı</span><span class="c-violet"><i></i>Arama / yayın</span><span class="c-red"><i></i>Hata kuyruğu</span>
+      <span class="c-gold"><i></i>Source</span><span class="c-green"><i></i>Storage</span><span class="c-pink"><i></i>Eventing</span><span class="c-orange"><i></i>Lambda</span><span class="c-blue"><i></i>State</span><span class="c-teal"><i></i>Inference</span><span class="c-violet"><i></i>Search / serving</span><span class="c-red"><i></i>DLQ</span>
     </div>
   </div>
 </section>
 
 <!-- 12 · AWS KAYNAKLARI -->
-<section class="slide" data-title="AWS kaynakları" data-section="04 · Canlıya alma">
-  <div class="r kicker">04 · Canlıya alma</div>
-  <h2 class="r title">Kod olarak altyapı: <span class="mono" style="font-size:26px;color:var(--muted)">infra/template.yaml</span></h2>
+<section class="slide" data-title="AWS kaynakları" data-section="04 · Deployment">
+  <div class="r kicker">04 · Deployment</div>
+  <h2 class="r title">Infrastructure as Code: <span class="mono" style="font-size:26px;color:var(--muted)">infra/template.yaml</span></h2>
   <div class="body">
     <div class="grid g4">
-      <div class="r card top" style="--c:var(--green)"><div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-box"/></svg></span><div><h3>S3 · DataBucket</h3><div class="sub">girdi, ara ve çıktı verisi</div></div></div>
-        <ul class="list" style="--c:var(--green)"><li>Sürümleme açık; video sürümü işe sabitlenir</li><li>SSE-AES256 · public erişim kapalı</li><li>EventBridge bildirimi · <code>Retain</code></li><li><code>incoming/ cms/ staging/ results/</code></li></ul></div>
-      <div class="r card top" style="--c:var(--pink)"><div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><div><h3>EventBridge</h3><div class="sub">iki kural</div></div></div>
-        <ul class="list" style="--c:var(--pink)"><li><b>InputRule:</b> Object Created · <code>incoming/</code></li><li><b>CompletionRule:</b> Completed · Failed · Stopped, JobPrefix filtresi</li><li>2 tekrar · 1 sa azami yaş · DLQ</li></ul></div>
+      <div class="r card top" style="--c:var(--green)"><div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-box"/></svg></span><div><h3>S3 · DataBucket</h3><div class="sub">input, staging ve output</div></div></div>
+        <ul class="list" style="--c:var(--green)"><li>Versioning açık; video version job’a sabitlenir</li><li>SSE-AES256 · public access kapalı</li><li>EventBridge notification · <code>Retain</code></li><li><code>incoming/ cms/ staging/ results/</code></li></ul></div>
+      <div class="r card top" style="--c:var(--pink)"><div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><div><h3>EventBridge</h3><div class="sub">iki rule</div></div></div>
+        <ul class="list" style="--c:var(--pink)"><li><b>InputRule:</b> Object Created · <code>incoming/</code></li><li><b>CompletionRule:</b> Completed · Failed · Stopped, JobPrefix filtresi</li><li>2 retry · 1 sa max event age · DLQ</li></ul></div>
       <div class="r card top" style="--c:var(--orange)"><div class="card-h"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-terminal"/></svg></span><div><h3>Lambda × 3</h3><div class="sub">Python 3.11 · 256 MB · tek ZIP</div></div></div>
-        <ul class="list" style="--c:var(--orange)"><li>Starter · 60 sn</li><li>Publisher · 60 sn</li><li>Reader · 30 sn</li><li>Asenkron çağrı: 2 tekrar → DLQ</li></ul></div>
-      <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>DynamoDB · JobsTable</h3><div class="sub">iş defteri</div></div></div>
-        <ul class="list" style="--c:var(--blue)"><li>Anahtar: <code>job_name</code></li><li>Koşullu yazma ile idempotent talep</li><li>On-demand · Point-in-time recovery</li></ul></div>
-      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>SageMaker Processing</h3><div class="sub">iş başına geçici kaynak</div></div></div>
-        <ul class="list" style="--c:var(--teal)"><li><code>ml.m5.xlarge</code> · 1 örnek · 30 GB</li><li>Girdi: <code>staging/&lt;job&gt;/</code> (File modu)</li><li>Çıktı: <code>results/&lt;job&gt;/</code> · EndOfJob</li></ul></div>
-      <div class="r card top" style="--c:var(--slate)"><div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>Amazon ECR</h3><div class="sub">model imaj deposu</div></div></div>
-        <ul class="list" style="--c:var(--slate)"><li>linux/amd64 MovieTag imajı</li><li>Etiket = <code>ModelVersion-CodeVersion</code></li><li>scanOnPush güvenlik taraması</li></ul></div>
-      <div class="r card top" style="--c:var(--violet)"><div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-search"/></svg></span><div><h3>OpenSearch 2.11</h3><div class="sub">yayın katmanı</div></div></div>
-        <ul class="list" style="--c:var(--violet)"><li><code>t3.small.search</code> · 10 GB gp2</li><li>Durağan + düğümler arası şifreleme</li><li>HTTPS zorunlu · TLS 1.2+</li><li>Yalnızca Publisher/Reader rolleri</li></ul></div>
-      <div class="r card top" style="--c:var(--red)"><div class="card-h"><span class="ic" style="--c:var(--red)"><svg class="i"><use href="#i-alert"/></svg></span><div><h3>SQS · DLQ</h3><div class="sub">hata kuyruğu</div></div></div>
-        <ul class="list" style="--c:var(--red)"><li>SQS yönetimli şifreleme</li><li>14 gün mesaj saklama</li><li>Kaynak: 2 kural + 2 asenkron Lambda</li></ul></div>
+        <ul class="list" style="--c:var(--orange)"><li>Starter · 60 sn</li><li>Publisher · 60 sn</li><li>Reader · 30 sn</li><li>Async invoke: 2 retry → DLQ</li></ul></div>
+      <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>DynamoDB · JobsTable</h3><div class="sub">job ledger</div></div></div>
+        <ul class="list" style="--c:var(--blue)"><li>Partition key: <code>job_name</code></li><li>Conditional write ile idempotent claim</li><li>On-demand · Point-in-time recovery</li></ul></div>
+      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>SageMaker Processing</h3><div class="sub">job başına ephemeral compute</div></div></div>
+        <ul class="list" style="--c:var(--teal)"><li><code>ml.m5.xlarge</code> (CPU) · <code>ml.g4dn.xlarge</code> (GPU)</li><li>Input: <code>staging/&lt;job&gt;/</code> (File mode)</li><li>Output: <code>results/&lt;job&gt;/</code> · EndOfJob</li></ul></div>
+      <div class="r card top" style="--c:var(--slate)"><div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>Amazon ECR</h3><div class="sub">model image registry</div></div></div>
+        <ul class="list" style="--c:var(--slate)"><li>linux/amd64 MovieTag image (CPU + GPU)</li><li>Tag = <code>ModelVersion-CodeVersion</code></li><li>scanOnPush security scan</li></ul></div>
+      <div class="r card top" style="--c:var(--violet)"><div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-search"/></svg></span><div><h3>OpenSearch 2.11</h3><div class="sub">serving layer</div></div></div>
+        <ul class="list" style="--c:var(--violet)"><li><code>t3.small.search</code> · 10 GB gp2</li><li>At-rest + node-to-node encryption</li><li>HTTPS zorunlu · TLS 1.2+</li><li>Sadece Publisher/Reader role’leri</li></ul></div>
+      <div class="r card top" style="--c:var(--red)"><div class="card-h"><span class="ic" style="--c:var(--red)"><svg class="i"><use href="#i-alert"/></svg></span><div><h3>SQS · DLQ</h3><div class="sub">dead-letter queue</div></div></div>
+        <ul class="list" style="--c:var(--red)"><li>SQS managed encryption</li><li>14 gün retention</li><li>Kaynak: 2 rule + 2 async Lambda</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- 13 · MODEL İMAJI -->
-<section class="slide" data-title="Model imajı" data-section="04 · Canlıya alma">
-  <div class="r kicker">04 · Canlıya alma</div>
-  <h2 class="r title">Model imajı: ağırlıklar dahil, çevrimdışı çalışan konteyner</h2>
-  <p class="r lead"><code>infra/build-movietag.ps1</code> artefaktları doğrular, geçici bir build bağlamı hazırlar ve <code>Dockerfile.movietag</code> ile linux/amd64 imajı üretir.</p>
+<section class="slide" data-title="Model image" data-section="04 · Deployment">
+  <div class="r kicker">04 · Deployment</div>
+  <h2 class="r title">Model image: ağırlıklar dahil, offline çalışan container</h2>
+  <p class="r lead">Aynı build context’ten iki varyant: <code>Dockerfile.movietag</code> (CPU) ve <code>Dockerfile.movietag-gpu</code> (CUDA 12.6). GPU image AWS CodeBuild’de build edilip ECR’ye push edilir.</p>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1.15fr;align-items:start">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-terminal"/></svg></span><div><h3>Build adımları</h3><div class="sub">build-movietag.ps1</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-terminal"/></svg></span><div><h3>Build akışı</h3><div class="sub">build-movietag.ps1 · build-movietag-codebuild.ps1</div></div></div>
         <ol class="vt">
-          <li><span class="dot">1</span><h4>Artefakt kontrolü</h4><p><code>epoch_best.pt</code>, <code>best_thresholds.npy</code>, <code>label_selection.xlsx</code> yoksa build durur.</p></li>
-          <li><span class="dot">2</span><h4>Geçici build bağlamı</h4><p><code>micro_genre/*.py</code> · <code>movietag/model.py</code> + <code>test_pipeline.py</code> · <code>assets/</code></p></li>
-          <li><span class="dot">3</span><h4>docker build --platform linux/amd64</h4><p>Etiket <code>micro-genre-movietag:smoke</code>; ECR’ye <code>movietag-film-focal-v1-demo-v1</code> olarak itilir.</p></li>
+          <li><span class="dot">1</span><h4>Artifact kontrolü</h4><p><code>epoch_best.pt</code>, <code>best_thresholds.npy</code>, <code>label_selection.xlsx</code> doğrulanır.</p></li>
+          <li><span class="dot">2</span><h4>Build context</h4><p><code>micro_genre/*.py</code> · <code>movietag/model.py</code> + <code>test_pipeline.py</code> · <code>assets/</code></p></li>
+          <li><span class="dot">3</span><h4>docker build --platform linux/amd64</h4><p>CPU: <code>movietag-film-focal-v1-demo-v1</code> · GPU (CodeBuild, ~8 dk): <code>movietag-film-focal-v1-gpu-v1</code></p></li>
         </ol>
-        <div class="note" style="--c:var(--teal);margin-top:16px"><svg class="i"><use href="#i-shield"/></svg><span>Eğitim videoları imaja girmez; yalnızca checkpoint, eşikler, etiket listesi ve inference kodu paketlenir.</span></div>
+        <div class="note" style="--c:var(--teal);margin-top:16px"><svg class="i"><use href="#i-shield"/></svg><span>Training videoları image’a girmez; yalnızca checkpoint, threshold’lar, label listesi ve inference kodu paketlenir.</span></div>
       </div>
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>İmaj katmanları</h3><div class="sub">üstten alta</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>Image layer’ları</h3><div class="sub">üstten alta</div></div></div>
         <div class="stack">
-          <div class="layer" style="--d:0;--c:var(--gold)"><span><b>CMD</b> python -m micro_genre.worker</span><small>giriş noktası</small></div>
-          <div class="layer" style="--d:1;--c:var(--green)"><span><b>HF_HUB_OFFLINE=1</b> · TRANSFORMERS_OFFLINE=1</span><small>ağ bağımsız</small></div>
-          <div class="layer" style="--d:2;--c:var(--teal)"><span>Önceden indirilmiş: <b>CLIP ViT-L/14 · MPNet · CLAP</b></span><small>build anında</small></div>
+          <div class="layer" style="--d:0;--c:var(--gold)"><span><b>CMD</b> python -m micro_genre.worker</span><small>entrypoint</small></div>
+          <div class="layer" style="--d:1;--c:var(--green)"><span><b>HF_HUB_OFFLINE=1</b> · TRANSFORMERS_OFFLINE=1 · GPU: REQUIRE_GPU=1</span><small>offline</small></div>
+          <div class="layer" style="--d:2;--c:var(--teal)"><span>Pre-downloaded: <b>CLIP ViT-L/14 · MPNet · CLAP</b></span><small>build time</small></div>
           <div class="layer" style="--d:3;--c:var(--violet)"><span><b>micro_genre</b> + <b>movietag</b> kodu + <b>assets/</b></span><small>/app</small></div>
-          <div class="layer" style="--d:4;--c:var(--blue)"><span>torch 2.11 (CPU) · transformers 5.4 · CLIP · librosa · OpenCV</span><small>pip</small></div>
-          <div class="layer" style="--d:5;--c:var(--slate)"><span><b>python:3.11-slim</b> + ffmpeg</span><small>taban</small></div>
+          <div class="layer" style="--d:4;--c:var(--blue)"><span>torch 2.11 (CPU · cu126) · transformers 5.4 · CLIP · librosa · OpenCV</span><small>pip</small></div>
+          <div class="layer" style="--d:5;--c:var(--slate)"><span><b>python:3.11-slim</b> + ffmpeg</span><small>base</small></div>
         </div>
       </div>
     </div>
@@ -805,19 +849,19 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 14 · DAĞITIM -->
-<section class="slide" data-title="Dağıtım" data-section="04 · Canlıya alma">
-  <div class="r kicker">04 · Canlıya alma</div>
-  <h2 class="r title">Tek komutla dağıtım: <span class="mono" style="font-size:26px;color:var(--muted)">deploy.ps1</span></h2>
+<section class="slide" data-title="Deploy" data-section="04 · Deployment">
+  <div class="r kicker">04 · Deployment</div>
+  <h2 class="r title">Tek komutla deploy: <span class="mono" style="font-size:26px;color:var(--muted)">deploy.ps1</span></h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1.08fr;align-items:start">
       <div class="r card">
         <ol class="vt">
-          <li style="--c:var(--gold)"><span class="dot">1</span><h4>Yapılandırma doğrulaması</h4><p>Zorunlu alanlar, <code>REPLACE_</code> yer tutucuları, sürüm etiketi ve <code>mg-*-</code> JobPrefix kalıbı.</p></li>
-          <li style="--c:var(--gold)"><span class="dot">2</span><h4>Kimlik ve artefakt bucket</h4><p><code>sts get-caller-identity</code> · <code>s3api head-bucket</code></p></li>
-          <li style="--c:var(--teal)"><span class="dot">3</span><h4>ECR deposu</h4><p>Yoksa <code>scanOnPush</code> ile oluşturulur.</p></li>
-          <li style="--c:var(--teal)"><span class="dot">4</span><h4>MovieTagConfig → Base64</h4><p>JSON yapılandırma Starter ortamına aktarılır; <code>ModelImageUri</code> ile birlikte zorunlu.</p></li>
-          <li style="--c:var(--violet)"><span class="dot">5</span><h4>Lambda ZIP</h4><p>Ad = SHA-256 özeti → <code>lambda/&lt;hash&gt;.zip</code>; kod değişince yeni anahtar.</p></li>
-          <li style="--c:var(--violet)"><span class="dot">6</span><h4>cloudformation deploy</h4><p><code>CAPABILITY_IAM</code> · değişiklik yoksa hata vermez · yığın çıktıları listelenir.</p></li>
+          <li style="--c:var(--gold)"><span class="dot">1</span><h4>Config validation</h4><p>Zorunlu alanlar, <code>REPLACE_</code> placeholder’ları, version tag ve <code>mg-*-</code> JobPrefix pattern’i.</p></li>
+          <li style="--c:var(--gold)"><span class="dot">2</span><h4>Identity ve artifact bucket</h4><p><code>sts get-caller-identity</code> · <code>s3api head-bucket</code></p></li>
+          <li style="--c:var(--teal)"><span class="dot">3</span><h4>ECR repository</h4><p>Yoksa <code>scanOnPush</code> ile oluşturulur.</p></li>
+          <li style="--c:var(--teal)"><span class="dot">4</span><h4>MovieTagConfig → Base64</h4><p>JSON config Starter environment’ına aktarılır; <code>ModelImageUri</code> ile birlikte kullanılır.</p></li>
+          <li style="--c:var(--violet)"><span class="dot">5</span><h4>Lambda ZIP</h4><p>Key = SHA-256 hash → <code>lambda/&lt;hash&gt;.zip</code>; kod değişince yeni key.</p></li>
+          <li style="--c:var(--violet)"><span class="dot">6</span><h4>cloudformation deploy</h4><p><code>CAPABILITY_IAM</code> · no-op deploy’da hata vermez · stack output’ları listelenir.</p></li>
         </ol>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px">
@@ -840,9 +884,9 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 }</pre>
         </div>
         <div class="r">
-          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>PowerShell · repo kökü</div>
-<pre class="code" style="font-size:12px"><span class="tf">./infra/build-movietag.ps1</span>
-<span class="tf">docker</span> push <span class="tb">$settings</span>.ModelImageUri
+          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>PowerShell · repo root</div>
+<pre class="code" style="font-size:12px"><span class="tf">./infra/build-movietag.ps1</span>                <span class="tc"># CPU image</span>
+<span class="tf">./infra/build-movietag-codebuild.ps1</span>      <span class="tc"># GPU image (CodeBuild)</span>
 <span class="tf">./infra/deploy.ps1</span> -Config infra/deploy.movietag.local.json</pre>
         </div>
       </div>
@@ -851,86 +895,88 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 15 · STARTER -->
-<section class="slide" data-title="Starter Lambda" data-section="05 · Akış detayları">
-  <div class="r kicker">05 · Akış detayları</div>
-  <h2 class="r title">Starter Lambda: idempotent iş başlatma</h2>
+<section class="slide" data-title="Starter Lambda" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Starter Lambda: idempotent job başlatma</h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1.1fr;align-items:start">
       <div class="r card">
         <ol class="vt">
-          <li style="--c:var(--pink)"><span class="dot">1</span><h4>Olayı oku ve doğrula</h4><p>Bucket + <code>incoming/</code> öneki; <code>content_id</code> dosya adından; nesne sürümü zorunlu.</p></li>
-          <li style="--c:var(--pink)"><span class="dot">2</span><h4>Varlık kontrolü</h4><p><code>head_object</code>: belirtilen video sürümü ve <code>cms/&lt;id&gt;.json</code>.</p></li>
-          <li style="--c:var(--blue)"><span class="dot">3</span><h4>Koşullu talep</h4><p>DynamoDB <code>attribute_not_exists(job_name)</code>; kayıt varsa <b>duplicate</b> döner.</p></li>
-          <li style="--c:var(--green)"><span class="dot">4</span><h4>Girdileri sabitle</h4><p>Sabit video sürümü + CMS → <code>staging/&lt;job&gt;/</code>.</p></li>
-          <li style="--c:var(--teal)"><span class="dot">5</span><h4>CreateProcessingJob</h4><p>Ortam: <code>CONTENT_ID</code>, <code>RUN_ID</code>, model/kod sürümü, kaynak bilgisi, <code>MOVIETAG_CONFIG</code>.</p></li>
+          <li style="--c:var(--pink)"><span class="dot">1</span><h4>Event’i oku ve doğrula</h4><p>Bucket + <code>incoming/</code> prefix; <code>content_id</code> dosya adından; object version zorunlu.</p></li>
+          <li style="--c:var(--pink)"><span class="dot">2</span><h4>Existence check</h4><p><code>head_object</code>: ilgili video version’ı ve <code>cms/&lt;id&gt;.json</code>.</p></li>
+          <li style="--c:var(--blue)"><span class="dot">3</span><h4>Conditional claim</h4><p>DynamoDB <code>attribute_not_exists(job_name)</code>; kayıt varsa <b>duplicate</b> döner.</p></li>
+          <li style="--c:var(--green)"><span class="dot">4</span><h4>Input’ları sabitle</h4><p>Pinned video version + CMS → <code>staging/&lt;job&gt;/</code>.</p></li>
+          <li style="--c:var(--teal)"><span class="dot">5</span><h4>CreateProcessingJob</h4><p>Environment: <code>CONTENT_ID</code>, <code>RUN_ID</code>, model/code version, source bilgisi, <code>MOVIETAG_CONFIG</code>.</p></li>
         </ol>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="r">
-          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>micro_genre/aws_start.py · deterministik iş adı</div>
+          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>micro_genre/aws_start.py · deterministik job name</div>
 <pre class="code"><span class="tk">identity</span> = json.dumps([bucket, key, version_id,
                        MODEL_VERSION, CODE_VERSION])
 <span class="tk">job_name</span> = JOB_PREFIX + <span class="tf">sha256</span>(identity)[:<span class="tn">40</span>]
-<span class="tc"># → mg-film-56a30a284f63dd3435e5a939de115f2f765dfc5f</span>
+<span class="tc"># napoleon-full → mg-film-6e4136dfe2dc3d07d84080b5b43a59c0a964387b</span>
 
 table.<span class="tf">put_item</span>(Item=item,
     ConditionExpression=<span class="ts">"attribute_not_exists(job_name)"</span>)</pre>
         </div>
         <div class="r grid g2" style="gap:12px">
-          <div class="note" style="--c:var(--green)"><svg class="i"><use href="#i-repeat"/></svg><span>Aynı olay tekrar gelirse yeni (ücretli) iş açılmaz.</span></div>
-          <div class="note" style="--c:var(--gold)"><svg class="i"><use href="#i-upload"/></svg><span>Videonun yeni sürümü ya da yeni model/kod sürümü = yeni iş.</span></div>
+          <div class="note" style="--c:var(--green)"><svg class="i"><use href="#i-repeat"/></svg><span>Aynı event tekrar gelirse yeni job açılmaz.</span></div>
+          <div class="note" style="--c:var(--gold)"><svg class="i"><use href="#i-upload"/></svg><span>Yeni video version ya da yeni model/code version = yeni job.</span></div>
         </div>
-        <div class="r note" style="--c:var(--red)"><svg class="i"><use href="#i-alert"/></svg><span>Gönderim sonrası zaman aşımı belirsizdir; talep kaydı mutabakat için korunur ve hata DLQ’ya düşer.</span></div>
+        <div class="r note" style="--c:var(--blue)"><svg class="i"><use href="#i-shield"/></svg><span>Submit sırasında oluşabilecek timeout’larda claim kaydı reconciliation için korunur; event DLQ’da saklanır.</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 16 · PROCESSING -->
-<section class="slide" data-title="Processing ve sonuç sözleşmesi" data-section="05 · Akış detayları">
-  <div class="r kicker">05 · Akış detayları</div>
-  <h2 class="r title">Processing işi ve sonuç sözleşmesi</h2>
+<section class="slide" data-title="Processing ve result contract" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Processing job ve result contract</h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1.1fr;align-items:start">
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="r card">
-          <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>Worker kontrolleri</h3><div class="sub">micro_genre/worker.py</div></div></div>
+          <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>Worker validation</h3><div class="sub">micro_genre/worker.py</div></div></div>
           <ul class="list" style="--c:var(--teal)">
-            <li>Tam olarak <b>1 video + 1 CMS JSON</b> girdisi</li>
-            <li>CMS <code>content_id</code> = iş <code>CONTENT_ID</code></li>
-            <li><code>title</code>, <code>summary</code>, <code>genre</code> zorunlu ve boş olamaz</li>
+            <li>Tam olarak <b>1 video + 1 CMS JSON</b> input</li>
+            <li>CMS <code>content_id</code> = job <code>CONTENT_ID</code></li>
+            <li><code>title</code>, <code>summary</code>, <code>genre</code> zorunlu</li>
             <li><code>MOVIETAG_CONFIG</code> varsa MovieTag, yoksa StubModel</li>
-            <li>Sonuç kimlik alanlarıyla birlikte <code>result.json</code>’a yazılır</li>
+            <li>GPU image’da <code>REQUIRE_GPU=1</code>: CUDA yoksa fail-fast</li>
+            <li>Sonuç identity alanlarıyla birlikte <code>result.json</code>’a yazılır</li>
           </ul>
         </div>
         <div class="r card">
-          <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-tag"/></svg></span><div><h3>MovieTag adaptörü</h3><div class="sub">micro_genre/model.py</div></div></div>
+          <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-tag"/></svg></span><div><h3>MovieTag adapter</h3><div class="sub">micro_genre/model.py</div></div></div>
           <ul class="list" style="--c:var(--violet)">
             <li><code>Type = Genres</code> → micro_genres; diğer Type’lar → micro_tags</li>
-            <li>Type alanı olmayan tahmin reddedilir; boş sonuç hata sayılır</li>
+            <li>Type alanı olmayan prediction reddedilir; boş sonuç hata sayılır</li>
           </ul>
         </div>
       </div>
       <div class="r">
-        <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>s3://…/results/mg-film-56a30a28…/result.json</div>
+        <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>s3://…/results/mg-film-6e4136df…/result.json</div>
 <pre class="code" style="font-size:12px">{
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,
-  <span class="tk">"run_id"</span>: <span class="ts">"mg-film-56a30a284f63…f765dfc5f"</span>,
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
+  <span class="tk">"run_id"</span>: <span class="ts">"mg-film-6e4136dfe2dc…964387b"</span>,
   <span class="tk">"model_version"</span>: <span class="ts">"movietag-film-focal-v1"</span>,
   <span class="tk">"code_version"</span>: <span class="ts">"demo-v1"</span>,
   <span class="tk">"source"</span>: {
     <span class="tk">"bucket"</span>: <span class="ts">"micro-genre-film-smoke-databucket-…"</span>,
-    <span class="tk">"key"</span>: <span class="ts">"incoming/napoleon.mp4"</span>,
-    <span class="tk">"version_id"</span>: <span class="ts">"G3TZKE1fXyup…"</span>
+    <span class="tk">"key"</span>: <span class="ts">"incoming/napoleon-full.mp4"</span>,
+    <span class="tk">"version_id"</span>: <span class="ts">"k5WC8nXuviex…"</span>
   },
   <span class="tk">"prediction"</span>: {
     <span class="tk">"micro_tags"</span>: [
-      { <span class="tk">"label"</span>: <span class="ts">"music"</span>,    <span class="tk">"confidence"</span>: <span class="tn">0.6236</span> },
-      { <span class="tk">"label"</span>: <span class="ts">"suspense"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.6228</span> },
-      <span class="tc">… death, violence, military</span>
+      { <span class="tk">"label"</span>: <span class="ts">"suspense"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.6679</span> },
+      { <span class="tk">"label"</span>: <span class="ts">"music"</span>,    <span class="tk">"confidence"</span>: <span class="tn">0.5173</span> },
+      <span class="tc">… death, bleak, violence, war, military (11)</span>
     ],
     <span class="tk">"micro_genres"</span>: [
-      { <span class="tk">"label"</span>: <span class="ts">"action"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.5469</span> }
+      { <span class="tk">"label"</span>: <span class="ts">"action"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.2704</span> },
+      <span class="tc">… horror, thriller</span>
     ]
   }
 }</pre>
@@ -940,88 +986,88 @@ table.<span class="tf">put_item</span>(Item=item,
 </section>
 
 <!-- 17 · PUBLISHER -->
-<section class="slide" data-title="Publisher doğrulama kapıları" data-section="05 · Akış detayları">
-  <div class="r kicker">05 · Akış detayları</div>
-  <h2 class="r title">Publisher Lambda: yedi doğrulama kapısı</h2>
+<section class="slide" data-title="Publisher validation gate’leri" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Publisher Lambda: 7 validation gate</h2>
   <div class="body">
     <div class="grid" style="grid-template-columns:1.25fr 1fr;align-items:start">
       <div class="gates">
-        <div class="r gate"><span class="gn">1</span><div><b>Olay kaynağı</b><p><code>aws.sagemaker</code> · “Processing Job State Change”</p></div><span class="out" style="--c:var(--red)">aksi → hata</span></div>
-        <div class="r gate"><span class="gn">2</span><div><b>Bilinen iş</b><p>DynamoDB’de kayıt var mı; zaten COMPLETED mı?</p></div><span class="out">→ duplicate</span></div>
-        <div class="r gate"><span class="gn">3</span><div><b>İş durumu ve ARN</b><p><code>DescribeProcessingJob</code> ARN eşleşmesi; Failed/Stopped</p></div><span class="out" style="--c:var(--red)">→ FAILED</span></div>
-        <div class="r gate"><span class="gn">4</span><div><b>Kaynak hâlâ güncel mi?</b><p>Videonun en son sürümü işteki sürümle aynı olmalı</p></div><span class="out" style="--c:var(--gold)">→ STALE</span></div>
-        <div class="r gate"><span class="gn">5</span><div><b>Sonuç kimliği</b><p>content_id, run_id, model/kod sürümü, kaynak birebir</p></div><span class="out" style="--c:var(--red)">→ reddedilir</span></div>
-        <div class="r gate"><span class="gn">6</span><div><b>Şema ve skorlar</b><p>Boş olmayan listeler ve etiketler; 0 ≤ güven ≤ 1, sonlu</p></div><span class="out" style="--c:var(--red)">→ reddedilir</span></div>
-        <div class="r gate"><span class="gn">7</span><div><b>Aktif sürüm uyumu</b><p><code>micro-genre-active</code> alias’ı bu model sürümüne mi bakıyor?</p></div><span class="out" style="--c:var(--red)">→ reddedilir</span></div>
+        <div class="r gate"><span class="gn">1</span><div><b>Event source</b><p><code>aws.sagemaker</code> · “Processing Job State Change”</p></div><span class="out" style="--c:var(--red)">→ error</span></div>
+        <div class="r gate"><span class="gn">2</span><div><b>Bilinen job</b><p>DynamoDB’de kayıt var mı; zaten COMPLETED mı?</p></div><span class="out">→ duplicate</span></div>
+        <div class="r gate"><span class="gn">3</span><div><b>Job status ve ARN</b><p><code>DescribeProcessingJob</code> ARN eşleşmesi; Failed/Stopped</p></div><span class="out" style="--c:var(--red)">→ FAILED</span></div>
+        <div class="r gate"><span class="gn">4</span><div><b>Source hâlâ güncel mi?</b><p>Videonun son version’ı job’daki version ile aynı olmalı</p></div><span class="out" style="--c:var(--gold)">→ STALE</span></div>
+        <div class="r gate"><span class="gn">5</span><div><b>Result identity</b><p>content_id, run_id, model/code version, source birebir</p></div><span class="out" style="--c:var(--red)">→ reject</span></div>
+        <div class="r gate"><span class="gn">6</span><div><b>Schema ve score’lar</b><p>Dolu listeler ve label’lar; 0 ≤ confidence ≤ 1, finite</p></div><span class="out" style="--c:var(--red)">→ reject</span></div>
+        <div class="r gate"><span class="gn">7</span><div><b>Active version uyumu</b><p><code>micro-genre-active</code> alias’ı bu model version’ına mı bakıyor?</p></div><span class="out" style="--c:var(--red)">→ reject</span></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="r">
-          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>SigV4 imzalı istek</div>
-<pre class="code" style="font-size:12px"><span class="tf">PUT</span> micro-genre-active/_doc/napoleon
+          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>SigV4 signed request</div>
+<pre class="code" style="font-size:12px"><span class="tf">PUT</span> micro-genre-active/_doc/napoleon-full
 {
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
   <span class="tk">"model_version"</span>: <span class="ts">"movietag-film-focal-v1"</span>,
   <span class="tk">"run_id"</span>: <span class="ts">"mg-film-…"</span>, <span class="tk">"source"</span>: {…},
   <span class="tk">"records"</span>: [
     { <span class="tk">"type"</span>: <span class="ts">"micro-genre"</span>,
       <span class="tk">"label"</span>: <span class="ts">"action"</span>,
-      <span class="tk">"confidence"</span>: <span class="tn">0.5469</span>, … },
+      <span class="tk">"confidence"</span>: <span class="tn">0.2704</span>, … },
     { <span class="tk">"type"</span>: <span class="ts">"micro-tag"</span>,
-      <span class="tk">"label"</span>: <span class="ts">"military"</span>, … }
+      <span class="tk">"label"</span>: <span class="ts">"suspense"</span>, … }
   ]
 }</pre>
         </div>
-        <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg><span>Yazım başarılıysa iş <b>COMPLETED</b> olur. İlk yayında indeks <code>micro-genre-&lt;sürüm&gt;</code> oluşturulup alias bağlanır.</span></div>
+        <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg><span>Publish başarılıysa job <b>COMPLETED</b> olur. İlk publish’te <code>micro-genre-&lt;version&gt;</code> index’i oluşturulup alias bağlanır.</span></div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- 18 · DURUMLAR & SÜRÜMLEME -->
-<section class="slide" data-title="Durumlar ve sürümleme" data-section="05 · Akış detayları">
-  <div class="r kicker">05 · Akış detayları</div>
-  <h2 class="r title">İş durumları ve sürümlü yayın</h2>
+<section class="slide" data-title="Job state ve versioning" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Job state’leri ve versioned publish</h2>
   <div class="body">
     <div class="grid g2" style="align-items:start">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-activity"/></svg></span><div><h3>İş durum makinesi</h3><div class="sub">DynamoDB · status</div></div></div>
-        <svg class="dg" viewBox="0 0 560 290" width="100%" role="img" aria-label="İş durum makinesi">
+        <div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-activity"/></svg></span><div><h3>Job state machine</h3><div class="sub">DynamoDB · status</div></div></div>
+        <svg class="dg" viewBox="0 0 560 290" width="100%" role="img" aria-label="Job state machine">
           <defs><marker id="as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b98ad"/></marker></defs>
           <path class="edge" d="M120 150H178" marker-end="url(#as)"/>
           <text class="el" x="149" y="142" text-anchor="middle">PutItem</text>
           <path class="edge" d="M60 128V54Q60 42 72 42H178" marker-end="url(#as)"/>
-          <text class="el" x="70" y="34">kayıt zaten var</text>
+          <text class="el" x="70" y="34">claim mevcut</text>
           <path class="edge flow" d="M300 140C360 140 360 52 418 52" marker-end="url(#as)"/>
-          <text class="el" x="350" y="100" text-anchor="end">doğrulandı</text>
+          <text class="el" x="350" y="100" text-anchor="end">validated</text>
           <path class="edge" d="M300 150H418" marker-end="url(#as)"/>
           <text class="el" x="362" y="143" text-anchor="middle">Failed / Stopped</text>
           <path class="edge" d="M300 160C360 160 360 248 418 248" marker-end="url(#as)"/>
-          <text class="el" x="350" y="212" text-anchor="end">yeni video sürümü</text>
-          <g class="nd c-slate" transform="translate(0 128)"><rect class="box" width="120" height="44" rx="22"/><text class="nt" x="60" y="27">S3 olayı</text></g>
+          <text class="el" x="350" y="212" text-anchor="end">yeni video version</text>
+          <g class="nd c-slate" transform="translate(0 128)"><rect class="box" width="120" height="44" rx="22"/><text class="nt" x="60" y="27">S3 event</text></g>
           <g class="nd c-slate" transform="translate(180 20)"><rect class="box" width="120" height="44" rx="22" style="stroke-dasharray:4 4"/><text class="nt" x="60" y="27" style="fill:var(--muted)">duplicate</text></g>
           <g class="nd c-blue" transform="translate(180 128)"><rect class="box" width="120" height="44" rx="22"/><text class="nt" x="60" y="27">RUNNING</text></g>
           <g class="nd c-green" transform="translate(420 30)"><rect class="box" width="130" height="44" rx="22"/><text class="nt" x="65" y="27">COMPLETED</text></g>
           <g class="nd c-red" transform="translate(420 128)"><rect class="box" width="130" height="44" rx="22"/><text class="nt" x="65" y="27">FAILED</text></g>
           <g class="nd c-gold" transform="translate(420 226)"><rect class="box" width="130" height="44" rx="22"/><text class="nt" x="65" y="27">STALE</text></g>
         </svg>
-        <p style="font-size:12.8px;margin-top:6px">STALE: işlem sürerken aynı içerik için yeni video yüklendiyse eski sonuç yayınlanmaz.</p>
+        <p style="font-size:12.8px;margin-top:6px">STALE: job sürerken aynı içerik için yeni video yüklendiyse eski sonuç publish edilmez.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="r card">
-          <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-branch"/></svg></span><div><h3>Sürümlü indeks + aktif alias</h3><div class="sub">OpenSearch</div></div></div>
+          <div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-branch"/></svg></span><div><h3>Versioned index + active alias</h3><div class="sub">OpenSearch</div></div></div>
           <div style="display:grid;gap:10px">
             <div class="alias"><svg class="i"><use href="#i-arrow"/></svg>micro-genre-active</div>
-            <div class="idx act"><span>micro-genre-movietag-film-focal-v1</span><span class="chip sm" style="--c:var(--green)">aktif</span></div>
-            <div class="idx new"><span>micro-genre-&lt;yeni-sürüm&gt;</span><span class="chip sm" style="--c:var(--gold)">terfi bekler</span></div>
+            <div class="idx act"><span>micro-genre-movietag-film-focal-v1</span><span class="chip sm" style="--c:var(--green)">active</span></div>
+            <div class="idx new"><span>micro-genre-&lt;next-version&gt;</span><span class="chip sm" style="--c:var(--gold)">promotion</span></div>
           </div>
           <ul class="list" style="--c:var(--violet);margin-top:14px">
-            <li>Farklı model sürümünün tekil yayını <b>reddedilir</b>; aktif sürüm korunur</li>
-            <li>Yeni sürüm: tüm katalog yeniden işlenip doğrulanmadan alias değişmez</li>
+            <li>Farklı model version’ının tekil publish’i <b>reddedilir</b>; active version korunur</li>
+            <li>Yeni version: katalog yeniden işlenip doğrulandıktan sonra alias promote edilir</li>
           </ul>
         </div>
         <div class="r card">
-          <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-repeat"/></svg></span><div><h3>Yerel simülasyonda <code>rebuild</code></h3></div></div>
-          <p>Olay listesindeki her içerik yayınlamadan işlenir ve doğrulanır. <b>Hepsi başarılıysa</b> yeni indeks yazılır ve <code>active.json</code> atomik olarak değişir; tek hata eski sürümü korur.</p>
+          <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-repeat"/></svg></span><div><h3>Atomik <code>rebuild</code></h3></div></div>
+          <p>Event listesindeki her içerik publish edilmeden işlenip doğrulanır. <b>Hepsi başarılıysa</b> yeni index yazılır ve active pointer atomik olarak değişir; aksi halde mevcut version korunur.</p>
         </div>
       </div>
     </div>
@@ -1029,139 +1075,173 @@ table.<span class="tf">put_item</span>(Item=item,
 </section>
 
 <!-- 19 · ÖZELLİK ŞALTERİ -->
-<section class="slide" data-title="Özellik şalteri" data-section="05 · Akış detayları">
-  <div class="r kicker">05 · Akış detayları</div>
-  <h2 class="r title">Özellik şalteri ile kontrollü tüketim</h2>
-  <p class="r lead">Reader Lambda bir sıralama motoru değil, entegrasyon uç noktasıdır. <code>EnableModelTags</code> parametresi model sinyallerinin öneri sistemine açılıp açılmayacağını belirler.</p>
+<section class="slide" data-title="Feature flag" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Feature flag ile kontrollü rollout</h2>
+  <p class="r lead">Reader Lambda, recommender’a sinyal sağlayan entegrasyon endpoint’i. <code>EnableModelTags</code> parametresi model sinyallerinin recommender’a açılışını yönetir.</p>
   <div class="body">
     <div class="grid g2">
       <div class="r card">
-        <div class="card-h" style="justify-content:space-between"><h3>Şalter kapalı</h3><span class="sw"><span class="t"></span>EnableModelTags = "false"</span></div>
+        <div class="card-h" style="justify-content:space-between"><h3>Flag kapalı</h3><span class="sw"><span class="t"></span>EnableModelTags = "false"</span></div>
 <pre class="code">{
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
   <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>
 }</pre>
-        <p style="margin-top:10px">Yalnızca CMS türü döner; OpenSearch’e istek atılmaz. Mevcut davranış korunur.</p>
+        <p style="margin-top:10px">Yalnızca CMS genre döner; OpenSearch’e istek atılmaz. Mevcut davranış korunur.</p>
       </div>
       <div class="r card" style="border-color:rgba(45,212,191,.35)">
-        <div class="card-h" style="justify-content:space-between"><h3>Şalter açık</h3><span class="sw on"><span class="t"></span>EnableModelTags = "true"</span></div>
+        <div class="card-h" style="justify-content:space-between"><h3>Flag açık</h3><span class="sw on"><span class="t"></span>EnableModelTags = "true"</span></div>
 <pre class="code">{
-  <span class="tk">"content_id"</span>: <span class="ts">"napoleon"</span>,  <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>,
-  <span class="tk">"micro_tags"</span>: [<span class="ts">"music"</span>, <span class="ts">"suspense"</span>, <span class="ts">"death"</span>,
-                 <span class="ts">"violence"</span>, <span class="ts">"military"</span>],
-  <span class="tk">"micro_genres"</span>: [<span class="ts">"action"</span>]
+  <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,  <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>,
+  <span class="tk">"micro_tags"</span>: [<span class="ts">"suspense"</span>, <span class="ts">"music"</span>, <span class="ts">"death"</span>, <span class="ts">"war"</span>, …],
+  <span class="tk">"micro_genres"</span>: [<span class="ts">"action"</span>, <span class="ts">"horror"</span>, <span class="ts">"thriller"</span>]
 }</pre>
-        <p style="margin-top:10px">Aktif alias’tan doküman okunur; kayıtlar türüne göre ayrılır.</p>
+        <p style="margin-top:10px">Active alias’tan doküman okunur; kayıtlar type’a göre ayrılır.</p>
       </div>
     </div>
     <div class="roll">
-      <div class="r card"><div class="no">ADIM 1</div><h4>Kapalı dağıt</h4><p>İlk kurulum <code>"false"</code> ile; tüketiciler etkilenmez.</p></div>
-      <div class="r card"><div class="no">ADIM 2</div><h4>Yayını doğrula</h4><p>SageMaker Completed, DynamoDB COMPLETED, indekste doküman.</p></div>
-      <div class="r card" style="--c:var(--teal)"><div class="no">ADIM 3</div><h4>Aç ve yeniden dağıt</h4><p><code>"true"</code> → <code>deploy.ps1</code>; Reader etiketleri döndürür.</p></div>
-      <div class="r card" style="--c:var(--red)"><div class="no">GERİ ALMA</div><h4>Tek parametre</h4><p><code>"false"</code> + yeniden dağıtım; veri silinmez.</p></div>
+      <div class="r card"><div class="no">STEP 1</div><h4>Flag kapalı deploy</h4><p>İlk kurulum <code>"false"</code> ile; consumer’lar etkilenmez.</p></div>
+      <div class="r card"><div class="no">STEP 2</div><h4>Publish’i doğrula</h4><p>SageMaker Completed, DynamoDB COMPLETED, index’te doküman.</p></div>
+      <div class="r card" style="--c:var(--teal)"><div class="no">STEP 3</div><h4>Aç ve redeploy</h4><p><code>"true"</code> → <code>deploy.ps1</code>; Reader label’ları döner.</p></div>
+      <div class="r card" style="--c:var(--violet)"><div class="no">ROLLBACK</div><h4>Tek parametre</h4><p><code>"false"</code> + redeploy; veri korunur.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 20 · GÜVENLİK & OPERASYON -->
-<section class="slide" data-title="Güvenlik ve operasyon" data-section="06 · Operasyon">
-  <div class="r kicker">06 · Operasyon</div>
-  <h2 class="r title">Güvenlik ve operasyon ilkeleri</h2>
+<!-- 20 · SECURITY & OPERASYON -->
+<section class="slide" data-title="Security ve operasyon" data-section="05 · Pipeline detayları">
+  <div class="r kicker">05 · Pipeline detayları</div>
+  <h2 class="r title">Security ve operasyon</h2>
   <div class="body">
     <div class="grid g3">
-      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-shield"/></svg></span><h3>En az yetki (IAM)</h3></div>
-        <ul class="list" style="--c:var(--teal)"><li>Processing rolü yalnızca <code>staging/*</code> okur, <code>results/*</code> yazar</li><li>Starter yalnızca <code>JobPrefix*</code> işleri açar; PassRole sadece SageMaker’a</li><li>Reader: <code>cms/*</code> + OpenSearch GET</li></ul></div>
-      <div class="r card top" style="--c:var(--violet)"><div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-lock"/></svg></span><h3>Şifreleme</h3></div>
-        <ul class="list" style="--c:var(--violet)"><li>S3 SSE-AES256 · SQS yönetimli SSE</li><li>OpenSearch durağan + düğümler arası şifreleme</li><li>HTTPS zorunlu · TLS 1.2+</li></ul></div>
-      <div class="r card top" style="--c:var(--gold)"><div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-key"/></svg></span><h3>Gizli bilgi yok</h3></div>
-        <ul class="list"><li>OpenSearch çağrıları Lambda rolüyle SigV4 imzalı</li><li>Yapılandırma dosyalarında anahtar/şifre tutulmaz</li><li>Model ağırlıkları imajda; çalışma anında indirme yok</li></ul></div>
-      <div class="r card top" style="--c:var(--pink)"><div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-repeat"/></svg></span><h3>Dayanıklılık</h3></div>
-        <ul class="list" style="--c:var(--pink)"><li>EventBridge ve Lambda: 2 tekrar, 1 sa azami olay yaşı</li><li>Başarısız olaylar SQS DLQ’da 14 gün</li><li>Koşullu yazma ile mükerrer iş engeli</li></ul></div>
-      <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-activity"/></svg></span><h3>Gözlemlenebilirlik</h3></div>
-        <ul class="list" style="--c:var(--blue)"><li>CloudWatch Logs: Starter · Publisher · Reader</li><li>DynamoDB iş durumu: RUNNING · COMPLETED · FAILED · STALE</li><li>SageMaker <code>FailureReason</code> kayda geçer</li></ul></div>
-      <div class="r card top" style="--c:var(--orange)"><div class="card-h"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-dollar"/></svg></span><h3>Maliyet bilinci</h3></div>
-        <ul class="list" style="--c:var(--orange)"><li>Aynı videoyu yeniden yüklemek = yeni ücretli Processing işi</li><li>OpenSearch domaini sürekli ücretlidir</li><li>DataBucket <code>Retain</code>; ECR ve artefakt bucket yığın dışında</li></ul></div>
+      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-shield"/></svg></span><h3>Least privilege (IAM)</h3></div>
+        <ul class="list" style="--c:var(--teal)"><li>Processing role yalnızca <code>staging/*</code> okur, <code>results/*</code> yazar</li><li>Starter yalnızca <code>JobPrefix*</code> job’ları açar; PassRole sadece SageMaker’a</li><li>Reader: <code>cms/*</code> + OpenSearch GET</li></ul></div>
+      <div class="r card top" style="--c:var(--violet)"><div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-lock"/></svg></span><h3>Encryption</h3></div>
+        <ul class="list" style="--c:var(--violet)"><li>S3 SSE-AES256 · SQS managed SSE</li><li>OpenSearch at-rest + node-to-node encryption</li><li>HTTPS zorunlu · TLS 1.2+</li></ul></div>
+      <div class="r card top" style="--c:var(--gold)"><div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-key"/></svg></span><h3>Secret-free</h3></div>
+        <ul class="list"><li>OpenSearch çağrıları Lambda role’üyle SigV4 imzalı</li><li>Config dosyalarında key/şifre yok</li><li>Model ağırlıkları image içinde; runtime download yok</li></ul></div>
+      <div class="r card top" style="--c:var(--pink)"><div class="card-h"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-repeat"/></svg></span><h3>Resilience</h3></div>
+        <ul class="list" style="--c:var(--pink)"><li>EventBridge ve Lambda: 2 retry, 1 sa max event age</li><li>Başarısız event’ler SQS DLQ’da 14 gün</li><li>Conditional write ile duplicate job engeli</li></ul></div>
+      <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-activity"/></svg></span><h3>Observability</h3></div>
+        <ul class="list" style="--c:var(--blue)"><li>CloudWatch Logs: Starter · Publisher · Reader · Processing</li><li>DynamoDB job state: RUNNING · COMPLETED · FAILED · STALE</li><li>SageMaker <code>FailureReason</code> kayıt altında</li></ul></div>
+      <div class="r card top" style="--c:var(--orange)"><div class="card-h"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-dollar"/></svg></span><h3>Cost control</h3></div>
+        <ul class="list" style="--c:var(--orange)"><li>Aynı video version’ı tekrar job açmaz (idempotent)</li><li>Processing compute yalnızca job süresince ücretlenir</li><li>GPU stack ayrı region’da (eu-west-1); CPU stack’ten izole</li></ul></div>
     </div>
   </div>
 </section>
 
-<!-- 21 · DOĞRULAMA -->
-<section class="slide" data-title="Doğrulama sonuçları" data-section="06 · Operasyon">
-  <div class="r kicker">06 · Operasyon</div>
-  <h2 class="r title">Doğrulama sonuçları</h2>
+<!-- 21 · SONUÇLAR -->
+<section class="slide" data-title="Sonuçlar" data-section="06 · Sonuçlar ve GPU">
+  <div class="r kicker">06 · Sonuçlar ve GPU</div>
+  <h2 class="r title">Sonuçlar: full-length filmlerde end-to-end pipeline</h2>
   <div class="body">
     <div class="grid g4">
-      <div class="r kpi" style="--c:var(--green)"><div class="v">29.09.2026</div><div class="l">Gerçek checkpoint ile uçtan uca doğrulama · <code>micro-genre-film-smoke</code></div></div>
-      <div class="r kpi" style="--c:var(--teal)"><div class="v">3 dk 54 sn</div><div class="l">40 sn kesitin Processing süresi · <code>ml.m5.xlarge</code> (CPU)</div></div>
-      <div class="r kpi" style="--c:var(--gold)"><div class="v">23 / 23</div><div class="l">Birim testi başarılı · pipeline, worker, Starter, Publisher, Reader, depo, CLI</div></div>
-      <div class="r kpi" style="--c:var(--violet)"><div class="v">5 + 1</div><div class="l">Yayınlanan etiket: 5 micro-tag + 1 micro-genre (Napoleon kesiti)</div></div>
+      <div class="r kpi" style="--c:var(--green)"><div class="v">9 / 9</div><div class="l">Full-length film <b>COMPLETED</b> · CPU pipeline (eu-central-1)</div></div>
+      <div class="r kpi" style="--c:var(--teal)"><div class="v">18 sa 12 dk</div><div class="l">Toplam işlenen video · film başına 1:39 – 2:39</div></div>
+      <div class="r kpi" style="--c:var(--gold)"><div class="v">~2,5×</div><div class="l">CPU processing süresi / film süresi · <code>ml.m5.xlarge</code></div></div>
+      <div class="r kpi" style="--c:var(--violet)"><div class="v">24 / 24</div><div class="l">Unit test · pipeline, worker, Starter, Publisher, Reader, store, CLI</div></div>
     </div>
     <div class="grid g2" style="align-items:start">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Kabul kanıt zinciri</h3><div class="sub">hepsi birlikte görülmeden başarı raporlanmaz</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Her film için acceptance kriterleri</h3><div class="sub">9 filmin tamamında sağlandı</div></div></div>
         <ul class="checks">
-          <li><svg class="i"><use href="#i-check"/></svg><span>S3: <code>incoming/</code>, <code>cms/</code> ve <code>staging/&lt;job&gt;/</code> nesneleri</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>SageMaker Processing işi <b>Completed</b></span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span><code>results/&lt;job&gt;/result.json</code>: kimlik, kaynak sürümü, skorlar</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>DynamoDB iş kaydı <b>COMPLETED</b></span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>Reader: <code>micro_tags</code> + <code>micro_genres = ["action"]</code></span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Pinned input’lar: <code>staging/&lt;job&gt;/</code> video + CMS</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>SageMaker Processing job <b>Completed</b></span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span><code>results/&lt;job&gt;/result.json</code>: identity, source version, score’lar</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>DynamoDB <b>COMPLETED</b> → OpenSearch active alias’a publish</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Reader: feature flag ile <code>micro_tags</code> + <code>micro_genres</code></span></li>
         </ul>
       </div>
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-clock"/></svg></span><div><h3>Devam eden ve hazır testler</h3></div></div>
-        <ul class="checks todo">
-          <li><svg class="i"><use href="#i-clock"/></svg><span><b>Napoleon tam film</b> (2 sa 39 dk, <code>napoleon-full</code>): CPU’da saatler sürebilir; 24 sa / 30 GB sınırı izleniyor.</span></li>
-          <li><svg class="i"><use href="#i-film"/></svg><span><b>8 filmlik toplu CMS seti</b> hazır: Arrival, Enola Holmes 2, Hugo, Knives Out, Little Miss Sunshine, Shaun of the Dead, Tintin, The Social Network.</span></li>
-          <li><svg class="i"><use href="#i-box"/></svg><span>Model ve veri artefaktları S3 arşivinde yedekli: <code>archive/movietag/2026-09-29/</code></span></li>
+        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-film"/></svg></span><div><h3>Batch run · 30.09.2026</h3><div class="sub">8 film paralel + Napoleon</div></div></div>
+        <ul class="checks">
+          <li><svg class="i"><use href="#i-check"/></svg><span>8 film paralel submit edildi; tümü <b>~5,5 sa</b> içinde Completed</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Napoleon (2 sa 39 dk): ~32 segment, 6 sa 35 dk</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Her filmde 1–4 micro-genre ve 4–14 micro-tag üretildi</span></li>
+          <li><svg class="i"><use href="#i-box"/></svg><span>Model ve data artifact’ları arşivde: <code>archive/movietag/2026-09-29/</code></span></li>
         </ul>
       </div>
     </div>
-    <div class="r note" style="--c:var(--gold)"><svg class="i"><use href="#i-alert"/></svg><span>DLQ’nun boş olması tek başına başarı kanıtı değildir. <b>Completed</b> SageMaker + <b>COMPLETED</b> DynamoDB + Reader etiketleri birlikte görülmeden sonuç başarılı sayılmaz.</span></div>
+    <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg><span>Her film için SageMaker <b>Completed</b> + DynamoDB <b>COMPLETED</b> + OpenSearch dokümanı birlikte doğrulandı; pipeline full-length içerikte uçtan uca çalışıyor.</span></div>
   </div>
 </section>
 
-<!-- 22 · SINIRLAR & YOL HARİTASI -->
-<section class="slide" data-title="Sınırlar ve yol haritası" data-section="06 · Operasyon">
-  <div class="r kicker">06 · Operasyon</div>
-  <h2 class="r title">Bilinen sınırlar ve yol haritası</h2>
+<!-- 22 · GPU -->
+<section class="slide" data-title="GPU pipeline" data-section="06 · Sonuçlar ve GPU">
+  <div class="r kicker">06 · Sonuçlar ve GPU</div>
+  <h2 class="r title">GPU pipeline: eu-west-1’de izole clone</h2>
+  <p class="r lead">Aynı template ve kod tabanı, GPU instance ile. Full-length filmlerde throughput artışı için CPU pipeline’a dokunmadan ayrı region’da kuruldu.</p>
+  <div class="body">
+    <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
+      <div class="r card">
+        <ol class="vt">
+          <li style="--c:var(--violet)"><span class="dot">1</span><h4>Aynı IaC, ayrı region</h4><p><code>infra/template.yaml</code> → <code>micro-genre-film-gpu</code> stack; kendi bucket, Lambda, DynamoDB, OpenSearch ve DLQ’su.</p></li>
+          <li style="--c:var(--teal)"><span class="dot">2</span><h4>CUDA image</h4><p><code>Dockerfile.movietag-gpu</code> · torch 2.11 + cu126 · <code>REQUIRE_GPU=1</code> fail-fast.</p></li>
+          <li style="--c:var(--gold)"><span class="dot">3</span><h4>CodeBuild ile build</h4><p><code>image-build.yaml</code> + <code>build-movietag-codebuild.ps1</code>; CUDA kontrolü geçmeden push yok (~8 dk).</p></li>
+          <li style="--c:var(--green)"><span class="dot">4</span><h4>ml.g4dn.xlarge · NVIDIA T4</h4><p>Processing quota onaylandı; JobPrefix <code>mg-gpu-</code>; 11 CMS kaydı yeni bucket’a taşındı.</p></li>
+        </ol>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="r card bars">
+          <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-clock"/></svg></span><div><h3>Napoleon (2 sa 39 dk) · CPU vs GPU</h3><div class="sub">Processing job süresi</div></div></div>
+          <div class="bar-row" style="--c:var(--slate);grid-template-columns:130px 1fr 64px"><span>CPU · m5.xlarge</span><span class="bar"><span style="--v:100%"></span></span><span class="v">6:35</span></div>
+          <div class="bar-row" style="--c:var(--teal);grid-template-columns:130px 1fr 64px"><span>GPU · g4dn.xlarge</span><span class="bar"><span style="--v:0%"></span></span><span class="v">running</span></div>
+        </div>
+        <div class="r card">
+          <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Durum</h3><div class="sub">21.10.2026</div></div></div>
+          <ul class="checks">
+            <li><svg class="i"><use href="#i-check"/></svg><span>Stack <b>CREATE_COMPLETE</b> · image ECR’de</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>CMS kayıtları + <code>napoleon-full.mp4</code> taşındı</span></li>
+            <li><svg class="i"><use href="#i-clock"/></svg><span>GPU job <code>mg-gpu-00681a54…</code> çalışıyor</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 23 · ROADMAP -->
+<section class="slide" data-title="Roadmap" data-section="06 · Sonuçlar ve GPU">
+  <div class="r kicker">06 · Sonuçlar ve GPU</div>
+  <h2 class="r title">Tamamlananlar ve roadmap</h2>
   <div class="body">
     <div class="grid g2" style="align-items:start">
-      <div class="r card top" style="--c:var(--red)">
-        <div class="card-h"><span class="ic" style="--c:var(--red)"><svg class="i"><use href="#i-alert"/></svg></span><div><h3>Bilinen sınırlar</h3><div class="sub">bugünkü kapsam: tek içerikli duman testi</div></div></div>
-        <ul class="list" style="--c:var(--red);gap:13px">
-          <li>Gerçek CMS API entegrasyonu yok; CMS kaydı S3’e JSON olarak konur</li>
-          <li>SageMaker Training, manuel yeniden eğitim ve terfi onayı akışı yok</li>
-          <li>Kurumsal Elasticsearch/Kibana’ya log sevki yok (CloudWatch’ta)</li>
-          <li>Öneri sistemi sıralama entegrasyonu yok; Reader yalnızca sinyal döndürür</li>
-          <li>Eşzamanlı yayın, belirsiz başlatma sonrası mutabakat ve katalog bütünlük kontrolü eksik</li>
-          <li>Akış seçimi yalnızca İngilizce ses/altyazıyı tanır; CPU imajında uzun filmler saatler sürer</li>
+      <div class="r card top" style="--c:var(--green)">
+        <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Tamamlananlar</h3><div class="sub">model taşıma ve production pipeline</div></div></div>
+        <ul class="checks" style="gap:13px">
+          <li><svg class="i"><use href="#i-check"/></svg><span>MovieTag modeli AWS altyapımıza taşındı (CPU · eu-central-1)</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>9 full-length film end-to-end işlendi ve OpenSearch’e publish edildi</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Event-driven, idempotent, validated ve versioned pipeline</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Feature flag’li Reader entegrasyon endpoint’i</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>GPU pipeline (eu-west-1) + CodeBuild image build</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>IaC, tek komutla deploy ve 24 unit test</span></li>
         </ul>
       </div>
       <div class="r card top" style="--c:var(--teal)">
-        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-flag"/></svg></span><div><h3>Sonraki adımlar</h3><div class="sub">öncelik sırasıyla</div></div></div>
-        <ol class="vt" style="gap:17px">
-          <li style="--c:var(--teal)"><span class="dot">1</span><p><b>Tam film + 8 filmlik toplu test</b> → süre, maliyet ve etiket kalitesi profili</p></li>
-          <li style="--c:var(--teal)"><span class="dot">2</span><p><b>Hızlandırma:</b> GPU örneği ya da segment bazlı paralel işleme değerlendirmesi</p></li>
-          <li style="--c:var(--teal)"><span class="dot">3</span><p><b>Katalog manifesti</b> ile tam yeniden işleme ve kontrollü alias terfisi</p></li>
-          <li style="--c:var(--teal)"><span class="dot">4</span><p><b>Alarm ve mutabakat:</b> DLQ/FAILED alarmları, belirsiz işler için uzlaştırma</p></li>
-          <li style="--c:var(--teal)"><span class="dot">5</span><p><b>Entegrasyon:</b> CMS API, öneri sistemi ve şalterin kademeli açılması</p></li>
-          <li style="--c:var(--teal)"><span class="dot">6</span><p><b>Çok dilli içerik:</b> Türkçe altyazı/ASR stratejisi ve kalite ölçümü</p></li>
+        <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-flag"/></svg></span><div><h3>Sıradaki adımlar</h3><div class="sub">öncelik sırasıyla</div></div></div>
+        <ol class="vt" style="gap:15px">
+          <li style="--c:var(--teal)"><span class="dot">1</span><p><b>GPU benchmark</b> → katalog işlemeyi GPU pipeline’a taşıma</p></li>
+          <li style="--c:var(--teal)"><span class="dot">2</span><p><b>Threshold &amp; calibration</b> iyileştirmesi — full-film sonuçları baseline</p></li>
+          <li style="--c:var(--teal)"><span class="dot">3</span><p><b>Katalog rebuild</b> ve kontrollü alias promotion</p></li>
+          <li style="--c:var(--teal)"><span class="dot">4</span><p><b>Monitoring:</b> DLQ / FAILED alarmları ve job reconciliation</p></li>
+          <li style="--c:var(--teal)"><span class="dot">5</span><p><b>Entegrasyon:</b> CMS API, recommender ve feature flag’in kademeli açılması</p></li>
+          <li style="--c:var(--teal)"><span class="dot">6</span><p><b>Çok dilli içerik:</b> Türkçe altyazı / ASR desteği</p></li>
         </ol>
       </div>
     </div>
-    <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-flag"/></svg><span><b>Canlı kabul için ön koşullar:</b> gerçek CMS kimlik sözleşmesi, tam katalog yeniden işleme ve doğrulama, alarm + geri alma planı, kurumsal log ve öneri sistemi entegrasyonu. Bunlar tamamlanmadan akış üretim kabulünü geçmiş sayılmaz.</span></div>
+    <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-flag"/></svg><span><b>Hedef:</b> tüm katalogda full-length filmlerden üretilen micro-genre ve micro-tag sinyalini recommender’a production’da sunmak.</span></div>
   </div>
 </section>
 
-<!-- 23 · KAPANIŞ -->
+<!-- 24 · KAPANIŞ -->
 <section class="slide" data-title="Özet" data-section="Kapanış">
   <div class="r kicker">Özet</div>
   <h2 class="r title">Üç cümlede micro-genre pipeline</h2>
   <div class="body">
     <div class="take">
-      <div class="r card top" style="--c:var(--gold)"><span class="n">01</span><h3>Çok modlu model</h3><p>Görüntü, ses ve metni FiLM ile birleştiren MovieTag, CMS türünün ötesinde içerik düzeyinde micro-tag ve micro-genre üretir.</p></div>
-      <div class="r card top" style="--c:var(--teal)"><span class="n">02</span><h3>Güvenli canlıya alma</h3><p>Olay güdümlü, idempotent, yedi kapılı doğrulamadan geçen ve sürümlü yayın; özellik şalteriyle tek parametrede geri alınabilir.</p></div>
-      <div class="r card top" style="--c:var(--violet)"><span class="n">03</span><h3>Kanıtlanmış akış</h3><p>Gerçek checkpoint ile uçtan uca duman testi başarılı; tam film, toplu test ve kurumsal entegrasyonlar sırada.</p></div>
+      <div class="r card top" style="--c:var(--gold)"><span class="n">01</span><h3>Multimodal model</h3><p>Görüntü, ses ve metni FiLM ile birleştiren MovieTag, CMS genre’ın ötesinde içerik seviyesinde micro-tag ve micro-genre üretiyor.</p></div>
+      <div class="r card top" style="--c:var(--teal)"><span class="n">02</span><h3>Production-ready pipeline</h3><p>Event-driven, idempotent, 7 validation gate’li ve versioned publish; feature flag ile tek parametrede rollback.</p></div>
+      <div class="r card top" style="--c:var(--violet)"><span class="n">03</span><h3>Full-length filmlerde kanıtlandı</h3><p>9 full-length film (18+ saat) end-to-end işlendi; GPU pipeline ile throughput artışı devrede.</p></div>
     </div>
     <div class="r thanks">
       <div><h2>Teşekkürler<span class="grad">.</span></h2><p class="muted" style="margin:10px 0 0;font-size:16px">Sorular ve tartışma</p></div>
