@@ -355,11 +355,11 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
     <div class="r chips">
       <span class="chip" style="--c:var(--teal)">CLIP · CLAP · MPNet</span>
       <span class="chip" style="--c:var(--orange)">FiLM fusion + Focal Loss</span>
-      <span class="chip" style="--c:var(--violet)">SageMaker Processing · CPU &amp; GPU</span>
+      <span class="chip" style="--c:var(--violet)">SageMaker Processing · GPU</span>
       <span class="chip" style="--c:var(--pink)">EventBridge · Lambda</span>
       <span class="chip" style="--c:var(--blue)">OpenSearch</span>
     </div>
-    <div class="r cover-meta"><span>Model <b>movietag-film-focal-v1</b></span><span>Region <b>eu-central-1 · eu-west-1</b></span><span>Ekim 2026</span></div>
+    <div class="r cover-meta"><span>Model <b>movietag-film-focal-v1</b></span><span>Compute <b>ml.g4dn.xlarge · NVIDIA T4</b></span><span>Ekim 2026</span></div>
   </div>
   <div class="strip-wrap" aria-hidden="true">
     <div class="strip">
@@ -383,13 +383,13 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       <div class="r ag"><span class="ag-n">03</span><h3>Filmden micro-genre’ye</h3><p>Segmentation, embedding extraction, dominance score ve 9 full-length film sonucu.</p></div>
       <div class="r ag"><span class="ag-n">04</span><h3>Deployment mimarisi</h3><p>AWS servisleri, offline model image ve tek komutla deploy.</p></div>
       <div class="r ag"><span class="ag-n">05</span><h3>Pipeline detayları</h3><p>Idempotent job başlatma, validation gate’leri, versioned publish, feature flag ve security.</p></div>
-      <div class="r ag"><span class="ag-n">06</span><h3>Sonuçlar ve GPU</h3><p>Full-length film sonuçları, GPU pipeline ve roadmap.</p></div>
+      <div class="r ag"><span class="ag-n">06</span><h3>Sonuçlar ve performans</h3><p>Full-length film sonuçları, GPU vs CPU hız karşılaştırması ve roadmap.</p></div>
     </div>
   </div>
 </section>
 
 <!-- 03 · PROBLEM -->
-<section class="slide" data-title="Problem ve hedef" data-section="01 · Bağlam">
+<section class="slide" data-title="Bağlam ve hedef" data-section="01 · Bağlam">
   <div class="r kicker">01 · Bağlam</div>
   <h2 class="r title">CMS genre’dan içerik seviyesinde micro-genre sinyaline</h2>
   <p class="r lead">MovieTag modeli filmin görüntü, ses ve metninden micro-tag ve micro-genre üretiyor. Bu çalışmada modeli kendi AWS altyapımıza taşıyıp full-length filmler için event-driven, versioned ve rollback’e hazır bir pipeline olarak recommender’a açtık.</p>
@@ -425,7 +425,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 04 · UÇTAN UCA -->
-<section class="slide" data-title="Uçtan uca bakış" data-section="01 · Bağlam">
+<section class="slide" data-title="End-to-end akış" data-section="01 · Bağlam">
   <div class="r kicker">01 · Bağlam</div>
   <h2 class="r title">End-to-end akış: upload’dan recommender sinyaline</h2>
   <p class="r lead">Beş aşamalı, asenkron ve serverless orkestrasyon. Her aşama bir öncekinin ürettiği event ile tetiklenir.</p>
@@ -433,7 +433,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
     <div class="flow5">
       <div class="r stg" style="--c:var(--gold)"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-upload"/></svg></span><div class="no">STAGE 1</div><h3>Ingest</h3><p>Full-length filmin low-res kopyası <code>incoming/</code>, CMS kaydı <code>cms/</code> altına S3’e yüklenir.</p></div>
       <div class="r stg" style="--c:var(--pink)"><span class="ic" style="--c:var(--pink)"><svg class="i"><use href="#i-zap"/></svg></span><div class="no">STAGE 2</div><h3>Trigger</h3><p>EventBridge “Object Created” event’i Starter Lambda’yı çağırır; job DynamoDB’de conditional write ile claim edilir.</p></div>
-      <div class="r stg" style="--c:var(--teal)"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div class="no">STAGE 3</div><h3>Inference</h3><p>SageMaker Processing, MovieTag image ile filmi segmentlere ayırır, embedding çıkarır ve etiketler.</p></div>
+      <div class="r stg" style="--c:var(--teal)"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div class="no">STAGE 3</div><h3>Inference</h3><p>SageMaker Processing GPU instance’ında (<code>ml.g4dn.xlarge</code>) MovieTag filmi segmentlere ayırır, embedding çıkarır ve etiketler.</p></div>
       <div class="r stg" style="--c:var(--orange)"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-shield"/></svg></span><div class="no">STAGE 4</div><h3>Validate &amp; Publish</h3><p>Publisher Lambda sonucu identity ve schema açısından doğrular, versioned OpenSearch index’ine yazar.</p></div>
       <div class="r stg" style="--c:var(--blue)"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-eye"/></svg></span><div class="no">STAGE 5</div><h3>Serve</h3><p>Reader Lambda; feature flag açıksa CMS genre’a ek olarak micro-tag ve micro-genre döner.</p></div>
     </div>
@@ -447,7 +447,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 05 · MODELLER -->
-<section class="slide" data-title="Kullanılan modeller" data-section="02 · Modeller">
+<section class="slide" data-title="Modeller" data-section="02 · Modeller">
   <div class="r kicker">02 · Modeller</div>
   <h2 class="r title">Üç frozen encoder + eğitilmiş fusion modeli</h2>
   <p class="r lead">Pre-trained encoder’lar her modaliteyi embedding dizisine çevirir; projeye özel eğitilen MovieTag classifier bu dizileri birleştirip label olasılıkları üretir.</p>
@@ -545,7 +545,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 07 · EĞİTİM -->
-<section class="slide" data-title="Eğitim ve model seçimi" data-section="02 · Modeller">
+<section class="slide" data-title="Training ve model seçimi" data-section="02 · Modeller">
   <div class="r kicker">02 · Modeller</div>
   <h2 class="r title">Training ve model seçimi: 10 deneylik karşılaştırma</h2>
   <div class="body">
@@ -584,10 +584,10 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 08 · ÇIKARIM ADIMLARI -->
-<section class="slide" data-title="Çıkarım hattı" data-section="03 · Filmden micro-genre’ye">
+<section class="slide" data-title="Inference pipeline" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
   <h2 class="r title">Filmden label’a: 6 adımlı inference pipeline</h2>
-  <p class="r lead">Processing container’ında worker, MovieTag <code>test_pipeline.py</code>’yi subprocess olarak çalıştırır. Tüm model ağırlıkları image içinde; runtime’da download yok.</p>
+  <p class="r lead">GPU Processing container’ında worker, MovieTag <code>test_pipeline.py</code>’yi subprocess olarak çalıştırır; CLIP, CLAP ve classifier CUDA üzerinde koşar. Tüm model ağırlıkları image içinde; runtime’da download yok.</p>
   <div class="body">
     <div class="steps6">
       <div class="r st" style="--c:var(--gold)"><div class="hd"><span class="num">1</span><svg class="i"><use href="#i-search"/></svg></div><h4>Stream seçimi</h4><p><code>ffprobe</code> ile en çok kanallı İngilizce audio ve İngilizce altyazı (SDH öncelikli) seçilir.</p></div>
@@ -621,7 +621,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 </section>
 
 <!-- 09 · SKORLAMA -->
-<section class="slide" data-title="Baskınlık skoru" data-section="03 · Filmden micro-genre’ye">
+<section class="slide" data-title="Dominance score" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
   <h2 class="r title">Segmentlerden film label’ına: dominance score</h2>
   <div class="body">
@@ -663,7 +663,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
   <span class="tk">"summary"</span>: <span class="ts">"A historical drama following Napoleon Bonaparte."</span>,
   <span class="tk">"genre"</span>: <span class="ts">"Drama"</span>
 }</pre>
-        <ul class="list" style="--c:var(--slate);margin-top:12px"><li>İngilizce audio + altyazılı full-length film</li><li>~32 segment · CPU job 6 sa 35 dk</li></ul>
+        <ul class="list" style="--c:var(--slate);margin-top:12px"><li>İngilizce audio + altyazılı full-length film</li><li>~32 segment · GPU job 20,5 dk</li></ul>
       </div>
       <div class="r card bars">
         <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-chart"/></svg></span><div><h3>Model output</h3><div class="sub">movietag-film-focal-v1 · score = frekans × olasılık</div></div></div>
@@ -705,13 +705,13 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <section class="slide" data-title="9 full-length film sonuçları" data-section="03 · Filmden micro-genre’ye">
   <div class="r kicker">03 · Filmden <span lang="en">micro-genre</span>’ye</div>
   <h2 class="r title">9 full-length film: end-to-end sonuçlar</h2>
-  <p class="r lead">30.09.2026 batch’inde 8 film paralel submit edildi; Napoleon ile birlikte toplam <b>18 sa 12 dk</b> video işlendi ve tüm job’lar <b>COMPLETED</b> oldu.</p>
+  <p class="r lead">İlk batch CPU baseline’da koşturuldu: toplam <b>18 sa 12 dk</b> video, tüm job’lar <b>COMPLETED</b>. GPU pipeline aynı label’ları ~19× daha kısa sürede üretiyor (Napoleon ile birebir doğrulandı).</p>
   <div class="body">
     <div class="r card" style="padding:12px 18px">
       <table class="ftab">
-        <thead lang="en"><tr><th>Film</th><th>Süre</th><th>CMS genre</th><th>micro_genres</th><th>Top micro_tags</th><th style="text-align:right">CPU job</th></tr></thead>
+        <thead lang="en"><tr><th>Film</th><th>Süre</th><th>CMS genre</th><th>micro_genres</th><th>Top micro_tags</th><th style="text-align:right">Job süresi</th></tr></thead>
         <tbody>
-          <tr><td class="t">Napoleon</td><td class="m">2:38:53</td><td>Drama</td><td><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">thriller</span></td><td>suspense, music, death, bleak, violence, war</td><td class="m r2">6:35</td></tr>
+          <tr><td class="t">Napoleon</td><td class="m">2:38:53</td><td>Drama</td><td><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">thriller</span></td><td>suspense, music, death, bleak, violence, war</td><td class="m r2">CPU 6:35 → <b style="color:var(--teal)">GPU 0:21</b></td></tr>
           <tr><td class="t">Enola Holmes 2</td><td class="m">2:10:57</td><td>Mystery Adventure</td><td><span class="chip" style="--c:var(--gold)">horror</span><span class="chip" style="--c:var(--gold)">action</span><span class="chip" style="--c:var(--gold)">mystery</span></td><td>music, suspense, scary, death, children</td><td class="m r2">5:30</td></tr>
           <tr><td class="t">Knives Out</td><td class="m">2:10:06</td><td>Mystery Crime Comedy</td><td><span class="chip" style="--c:var(--gold)">action</span></td><td>emotional, cinematography, children, family</td><td class="m r2">5:27</td></tr>
           <tr><td class="t">Hugo</td><td class="m">2:06:21</td><td>Adventure Drama</td><td><span class="chip" style="--c:var(--gold)">horror</span></td><td>children, family, music, death, family bonds</td><td class="m r2">5:09</td></tr>
@@ -725,8 +725,8 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
     </div>
     <div class="grid g3" style="gap:12px">
       <div class="r note" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg><span><b>9 / 9 COMPLETED</b> · her film için result.json, DynamoDB state ve OpenSearch dokümanı oluştu.</span></div>
-      <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-clock"/></svg><span><b>~2,5× film süresi</b> CPU’da (<code>ml.m5.xlarge</code>); 8 film paralel ~5,5 sa’te tamamlandı.</span></div>
-      <div class="r note" style="--c:var(--violet)"><svg class="i"><use href="#i-zap"/></svg><span><b>GPU pipeline</b> ile aynı filmler için throughput artışı hedefleniyor (bölüm 06).</span></div>
+      <div class="r note" style="--c:var(--slate)"><svg class="i"><use href="#i-clock"/></svg><span><b>CPU baseline</b> (<code>ml.m5.xlarge</code>, ilk batch): film süresinin ~2,5 katı; tablodaki diğer süreler CPU.</span></div>
+      <div class="r note" style="--c:var(--teal)"><svg class="i"><use href="#i-zap"/></svg><span><b>GPU pipeline</b> (<code>ml.g4dn.xlarge</code>): Napoleon 20,5 dk, aynı sonuç — film süresinin ~%13’ü.</span></div>
     </div>
   </div>
 </section>
@@ -734,8 +734,8 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 11 · AWS MİMARİ -->
 <section class="slide" data-title="AWS mimarisi" data-section="04 · Deployment">
   <div class="r kicker">04 · Deployment</div>
-  <h2 class="r title">Production mimarisi: event-driven, serverless orkestrasyon</h2>
-  <p class="r lead">Tek CloudFormation stack. Her adım bir event ile tetiklenir; sürekli çalışan tek bileşen OpenSearch domain’i.</p>
+  <h2 class="r title">Production mimarisi: event-driven, serverless, GPU inference</h2>
+  <p class="r lead">Tek CloudFormation stack (eu-west-1). Her adım bir event ile tetiklenir; inference GPU instance’ında yalnızca job süresince çalışır.</p>
   <div class="body" style="margin-top:14px;gap:10px">
     <svg class="r dg" viewBox="0 0 1100 372" width="1136" height="384" role="img" aria-label="AWS deployment mimarisi">
       <defs><marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8b98ad"/></marker></defs>
@@ -768,8 +768,8 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       <g class="nd c-green" transform="translate(195 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">2</text><text class="nt" x="75" y="28">S3 · incoming/</text><text class="ns" x="75" y="47">versioned · &lt;id&gt;.mp4</text></g>
       <g class="nd c-pink" transform="translate(380 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">3</text><text class="nt" x="75" y="28">EventBridge</text><text class="ns" x="75" y="47">Object Created rule</text></g>
       <g class="nd c-orange" transform="translate(565 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">4</text><text class="nt" x="75" y="28">Starter Lambda</text><text class="ns" x="75" y="47">claim · stage · start</text></g>
-      <g class="nd c-teal" transform="translate(750 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">5</text><text class="nt" x="75" y="28" style="font-size:12px">SageMaker Processing</text><text class="ns" x="75" y="47">MovieTag · m5 / g4dn</text></g>
-      <g class="nd c-slate" transform="translate(935 40)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">Amazon ECR</text><text class="ns" x="75" y="47">MovieTag image</text></g>
+      <g class="nd c-teal" transform="translate(750 40)"><rect class="box" width="150" height="64" rx="12"/><circle class="badge" r="10"/><text class="bn" y="3.8">5</text><text class="nt" x="75" y="28" style="font-size:12px">SageMaker Processing</text><text class="ns" x="75" y="47">MovieTag · g4dn.xlarge GPU</text></g>
+      <g class="nd c-slate" transform="translate(935 40)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">Amazon ECR</text><text class="ns" x="75" y="47">MovieTag CUDA image</text></g>
       <!-- row 2 -->
       <g class="nd c-gold" transform="translate(10 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">CMS kaydı</text><text class="ns" x="75" y="47">title · summary · genre</text></g>
       <g class="nd c-green" transform="translate(195 170)"><rect class="box" width="150" height="64" rx="12"/><text class="nt" x="75" y="28">S3 · cms/</text><text class="ns" x="75" y="47">&lt;id&gt;.json</text></g>
@@ -805,10 +805,10 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
         <ul class="list" style="--c:var(--orange)"><li>Starter · 60 sn</li><li>Publisher · 60 sn</li><li>Reader · 30 sn</li><li>Async invoke: 2 retry → DLQ</li></ul></div>
       <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-db"/></svg></span><div><h3>DynamoDB · JobsTable</h3><div class="sub">job ledger</div></div></div>
         <ul class="list" style="--c:var(--blue)"><li>Partition key: <code>job_name</code></li><li>Conditional write ile idempotent claim</li><li>On-demand · Point-in-time recovery</li></ul></div>
-      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>SageMaker Processing</h3><div class="sub">job başına ephemeral compute</div></div></div>
-        <ul class="list" style="--c:var(--teal)"><li><code>ml.m5.xlarge</code> (CPU) · <code>ml.g4dn.xlarge</code> (GPU)</li><li>Input: <code>staging/&lt;job&gt;/</code> (File mode)</li><li>Output: <code>results/&lt;job&gt;/</code> · EndOfJob</li></ul></div>
+      <div class="r card top" style="--c:var(--teal)"><div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-cpu"/></svg></span><div><h3>SageMaker Processing</h3><div class="sub">job başına ephemeral GPU</div></div></div>
+        <ul class="list" style="--c:var(--teal)"><li><code>ml.g4dn.xlarge</code> · NVIDIA T4 · 30 GB</li><li>Input: <code>staging/&lt;job&gt;/</code> (File mode)</li><li>Output: <code>results/&lt;job&gt;/</code> · EndOfJob</li></ul></div>
       <div class="r card top" style="--c:var(--slate)"><div class="card-h"><span class="ic" style="--c:var(--slate)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>Amazon ECR</h3><div class="sub">model image registry</div></div></div>
-        <ul class="list" style="--c:var(--slate)"><li>linux/amd64 MovieTag image (CPU + GPU)</li><li>Tag = <code>ModelVersion-CodeVersion</code></li><li>scanOnPush security scan</li></ul></div>
+        <ul class="list" style="--c:var(--slate)"><li>linux/amd64 MovieTag CUDA image</li><li>Tag = <code>ModelVersion-CodeVersion</code></li><li>scanOnPush security scan</li></ul></div>
       <div class="r card top" style="--c:var(--violet)"><div class="card-h"><span class="ic" style="--c:var(--violet)"><svg class="i"><use href="#i-search"/></svg></span><div><h3>OpenSearch 2.11</h3><div class="sub">serving layer</div></div></div>
         <ul class="list" style="--c:var(--violet)"><li><code>t3.small.search</code> · 10 GB gp2</li><li>At-rest + node-to-node encryption</li><li>HTTPS zorunlu · TLS 1.2+</li><li>Sadece Publisher/Reader role’leri</li></ul></div>
       <div class="r card top" style="--c:var(--red)"><div class="card-h"><span class="ic" style="--c:var(--red)"><svg class="i"><use href="#i-alert"/></svg></span><div><h3>SQS · DLQ</h3><div class="sub">dead-letter queue</div></div></div>
@@ -820,16 +820,16 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <!-- 13 · MODEL İMAJI -->
 <section class="slide" data-title="Model image" data-section="04 · Deployment">
   <div class="r kicker">04 · Deployment</div>
-  <h2 class="r title">Model image: ağırlıklar dahil, offline çalışan container</h2>
-  <p class="r lead">Aynı build context’ten iki varyant: <code>Dockerfile.movietag</code> (CPU) ve <code>Dockerfile.movietag-gpu</code> (CUDA 12.6). GPU image AWS CodeBuild’de build edilip ECR’ye push edilir.</p>
+  <h2 class="r title">Model image: CUDA, ağırlıklar dahil, offline container</h2>
+  <p class="r lead"><code>Dockerfile.movietag-gpu</code> (torch + CUDA 12.6) AWS CodeBuild’de build edilip ECR’ye push edilir. Aynı build context’ten CPU varyantı (<code>Dockerfile.movietag</code>) baseline olarak korunuyor.</p>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1.15fr;align-items:start">
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-terminal"/></svg></span><div><h3>Build akışı</h3><div class="sub">build-movietag.ps1 · build-movietag-codebuild.ps1</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-terminal"/></svg></span><div><h3>Build akışı</h3><div class="sub">build-movietag-codebuild.ps1 · infra/image-build.yaml</div></div></div>
         <ol class="vt">
           <li><span class="dot">1</span><h4>Artifact kontrolü</h4><p><code>epoch_best.pt</code>, <code>best_thresholds.npy</code>, <code>label_selection.xlsx</code> doğrulanır.</p></li>
-          <li><span class="dot">2</span><h4>Build context</h4><p><code>micro_genre/*.py</code> · <code>movietag/model.py</code> + <code>test_pipeline.py</code> · <code>assets/</code></p></li>
-          <li><span class="dot">3</span><h4>docker build --platform linux/amd64</h4><p>CPU: <code>movietag-film-focal-v1-demo-v1</code> · GPU (CodeBuild, ~8 dk): <code>movietag-film-focal-v1-gpu-v1</code></p></li>
+          <li><span class="dot">2</span><h4>Build context → S3</h4><p><code>micro_genre/*.py</code> · <code>movietag/model.py</code> + <code>test_pipeline.py</code> · <code>assets/</code></p></li>
+          <li><span class="dot">3</span><h4>CodeBuild · docker build + CUDA check + push</h4><p><code>movietag-film-focal-v1-gpu-v1</code> · ~8 dk; torch CUDA build’i doğrulanmadan push yok.</p></li>
         </ol>
         <div class="note" style="--c:var(--teal);margin-top:16px"><svg class="i"><use href="#i-shield"/></svg><span>Training videoları image’a girmez; yalnızca checkpoint, threshold’lar, label listesi ve inference kodu paketlenir.</span></div>
       </div>
@@ -837,10 +837,10 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
         <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-layers"/></svg></span><div><h3>Image layer’ları</h3><div class="sub">üstten alta</div></div></div>
         <div class="stack">
           <div class="layer" style="--d:0;--c:var(--gold)"><span><b>CMD</b> python -m micro_genre.worker</span><small>entrypoint</small></div>
-          <div class="layer" style="--d:1;--c:var(--green)"><span><b>HF_HUB_OFFLINE=1</b> · TRANSFORMERS_OFFLINE=1 · GPU: REQUIRE_GPU=1</span><small>offline</small></div>
+          <div class="layer" style="--d:1;--c:var(--green)"><span><b>REQUIRE_GPU=1</b> · HF_HUB_OFFLINE=1 · TRANSFORMERS_OFFLINE=1</span><small>fail-fast · offline</small></div>
           <div class="layer" style="--d:2;--c:var(--teal)"><span>Pre-downloaded: <b>CLIP ViT-L/14 · MPNet · CLAP</b></span><small>build time</small></div>
           <div class="layer" style="--d:3;--c:var(--violet)"><span><b>micro_genre</b> + <b>movietag</b> kodu + <b>assets/</b></span><small>/app</small></div>
-          <div class="layer" style="--d:4;--c:var(--blue)"><span>torch 2.11 (CPU · cu126) · transformers 5.4 · CLIP · librosa · OpenCV</span><small>pip</small></div>
+          <div class="layer" style="--d:4;--c:var(--blue)"><span>torch 2.11 + CUDA 12.6 · transformers 5.4 · CLIP · librosa · OpenCV</span><small>pip</small></div>
           <div class="layer" style="--d:5;--c:var(--slate)"><span><b>python:3.11-slim</b> + ffmpeg</span><small>base</small></div>
         </div>
       </div>
@@ -866,28 +866,27 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
       </div>
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="r">
-          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>infra/deploy.movietag.local.json</div>
+          <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>infra/deploy.movietag-gpu.local.json</div>
 <pre class="code" style="font-size:12px">{
-  <span class="tk">"StackName"</span>: <span class="ts">"micro-genre-film-smoke"</span>,
-  <span class="tk">"JobPrefix"</span>: <span class="ts">"mg-film-"</span>,
+  <span class="tk">"Region"</span>: <span class="ts">"eu-west-1"</span>,
+  <span class="tk">"StackName"</span>: <span class="ts">"micro-genre-film-gpu"</span>,
+  <span class="tk">"JobPrefix"</span>: <span class="ts">"mg-gpu-"</span>,
   <span class="tk">"ModelVersion"</span>: <span class="ts">"movietag-film-focal-v1"</span>,
-  <span class="tk">"CodeVersion"</span>: <span class="ts">"demo-v1"</span>,
-  <span class="tk">"InstanceType"</span>: <span class="ts">"ml.m5.xlarge"</span>,
+  <span class="tk">"CodeVersion"</span>: <span class="ts">"gpu-v1"</span>,
+  <span class="tk">"InstanceType"</span>: <span class="ts">"ml.g4dn.xlarge"</span>,
   <span class="tk">"EnableModelTags"</span>: <span class="ts">"true"</span>,
-  <span class="tk">"ModelImageUri"</span>: <span class="ts">"&lt;ecr&gt;/micro-genre-dummy:movietag-film-focal-v1-demo-v1"</span>,
+  <span class="tk">"ModelImageUri"</span>: <span class="ts">"&lt;ecr&gt;/micro-genre-movietag-gpu:movietag-film-focal-v1-gpu-v1"</span>,
   <span class="tk">"MovieTagConfig"</span>: {
     <span class="tk">"checkpoint"</span>: <span class="ts">"/app/assets/epoch_best.pt"</span>,
     <span class="tk">"model_type"</span>: <span class="ts">"multimodal"</span>, <span class="tk">"fusion"</span>: <span class="ts">"film"</span>,
-    <span class="tk">"text_model"</span>: <span class="ts">"sentence-transformers/all-mpnet-base-v2"</span>,
     <span class="tk">"prediction_threshold"</span>: <span class="tn">0</span>
   }
 }</pre>
         </div>
         <div class="r">
           <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>PowerShell · repo root</div>
-<pre class="code" style="font-size:12px"><span class="tf">./infra/build-movietag.ps1</span>                <span class="tc"># CPU image</span>
-<span class="tf">./infra/build-movietag-codebuild.ps1</span>      <span class="tc"># GPU image (CodeBuild)</span>
-<span class="tf">./infra/deploy.ps1</span> -Config infra/deploy.movietag.local.json</pre>
+<pre class="code" style="font-size:12px"><span class="tf">./infra/build-movietag-codebuild.ps1</span>      <span class="tc"># CUDA image → ECR</span>
+<span class="tf">./infra/deploy.ps1</span> -Config infra/deploy.movietag-gpu.local.json</pre>
         </div>
       </div>
     </div>
@@ -915,7 +914,7 @@ kbd{font:11px var(--mono);padding:1px 6px;border-radius:5px;border:1px solid #33
 <pre class="code"><span class="tk">identity</span> = json.dumps([bucket, key, version_id,
                        MODEL_VERSION, CODE_VERSION])
 <span class="tk">job_name</span> = JOB_PREFIX + <span class="tf">sha256</span>(identity)[:<span class="tn">40</span>]
-<span class="tc"># napoleon-full → mg-film-6e4136dfe2dc3d07d84080b5b43a59c0a964387b</span>
+<span class="tc"># napoleon-full → mg-gpu-00681a54f99267f67668588e43736c2b83d7adc2</span>
 
 table.<span class="tf">put_item</span>(Item=item,
     ConditionExpression=<span class="ts">"attribute_not_exists(job_name)"</span>)</pre>
@@ -944,7 +943,7 @@ table.<span class="tf">put_item</span>(Item=item,
             <li>CMS <code>content_id</code> = job <code>CONTENT_ID</code></li>
             <li><code>title</code>, <code>summary</code>, <code>genre</code> zorunlu</li>
             <li><code>MOVIETAG_CONFIG</code> varsa MovieTag, yoksa StubModel</li>
-            <li>GPU image’da <code>REQUIRE_GPU=1</code>: CUDA yoksa fail-fast</li>
+            <li>GPU image’da <code>REQUIRE_GPU=1</code>: CUDA yoksa fail-fast, CPU’ya sessiz düşüş yok</li>
             <li>Sonuç identity alanlarıyla birlikte <code>result.json</code>’a yazılır</li>
           </ul>
         </div>
@@ -957,21 +956,21 @@ table.<span class="tf">put_item</span>(Item=item,
         </div>
       </div>
       <div class="r">
-        <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>s3://…/results/mg-film-6e4136df…/result.json</div>
+        <div class="code-h"><span class="dots"><i></i><i></i><i></i></span>s3://…/results/mg-gpu-00681a54…/result.json</div>
 <pre class="code" style="font-size:12px">{
   <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
-  <span class="tk">"run_id"</span>: <span class="ts">"mg-film-6e4136dfe2dc…964387b"</span>,
+  <span class="tk">"run_id"</span>: <span class="ts">"mg-gpu-00681a54f992…e43736c2b83d7adc2"</span>,
   <span class="tk">"model_version"</span>: <span class="ts">"movietag-film-focal-v1"</span>,
-  <span class="tk">"code_version"</span>: <span class="ts">"demo-v1"</span>,
+  <span class="tk">"code_version"</span>: <span class="ts">"gpu-v1"</span>,
   <span class="tk">"source"</span>: {
-    <span class="tk">"bucket"</span>: <span class="ts">"micro-genre-film-smoke-databucket-…"</span>,
+    <span class="tk">"bucket"</span>: <span class="ts">"micro-genre-film-gpu-databucket-…"</span>,
     <span class="tk">"key"</span>: <span class="ts">"incoming/napoleon-full.mp4"</span>,
-    <span class="tk">"version_id"</span>: <span class="ts">"k5WC8nXuviex…"</span>
+    <span class="tk">"version_id"</span>: <span class="ts">"jLb7REfsOkxt…"</span>
   },
   <span class="tk">"prediction"</span>: {
     <span class="tk">"micro_tags"</span>: [
-      { <span class="tk">"label"</span>: <span class="ts">"suspense"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.6679</span> },
-      { <span class="tk">"label"</span>: <span class="ts">"music"</span>,    <span class="tk">"confidence"</span>: <span class="tn">0.5173</span> },
+      { <span class="tk">"label"</span>: <span class="ts">"suspense"</span>, <span class="tk">"confidence"</span>: <span class="tn">0.6678</span> },
+      { <span class="tk">"label"</span>: <span class="ts">"music"</span>,    <span class="tk">"confidence"</span>: <span class="tn">0.5172</span> },
       <span class="tc">… death, bleak, violence, war, military (11)</span>
     ],
     <span class="tk">"micro_genres"</span>: [
@@ -1007,7 +1006,7 @@ table.<span class="tf">put_item</span>(Item=item,
 {
   <span class="tk">"content_id"</span>: <span class="ts">"napoleon-full"</span>,
   <span class="tk">"model_version"</span>: <span class="ts">"movietag-film-focal-v1"</span>,
-  <span class="tk">"run_id"</span>: <span class="ts">"mg-film-…"</span>, <span class="tk">"source"</span>: {…},
+  <span class="tk">"run_id"</span>: <span class="ts">"mg-gpu-…"</span>, <span class="tk">"source"</span>: {…},
   <span class="tk">"records"</span>: [
     { <span class="tk">"type"</span>: <span class="ts">"micro-genre"</span>,
       <span class="tk">"label"</span>: <span class="ts">"action"</span>,
@@ -1125,20 +1124,20 @@ table.<span class="tf">put_item</span>(Item=item,
       <div class="r card top" style="--c:var(--blue)"><div class="card-h"><span class="ic" style="--c:var(--blue)"><svg class="i"><use href="#i-activity"/></svg></span><h3>Observability</h3></div>
         <ul class="list" style="--c:var(--blue)"><li>CloudWatch Logs: Starter · Publisher · Reader · Processing</li><li>DynamoDB job state: RUNNING · COMPLETED · FAILED · STALE</li><li>SageMaker <code>FailureReason</code> kayıt altında</li></ul></div>
       <div class="r card top" style="--c:var(--orange)"><div class="card-h"><span class="ic" style="--c:var(--orange)"><svg class="i"><use href="#i-dollar"/></svg></span><h3>Cost control</h3></div>
-        <ul class="list" style="--c:var(--orange)"><li>Aynı video version’ı tekrar job açmaz (idempotent)</li><li>Processing compute yalnızca job süresince ücretlenir</li><li>GPU stack ayrı region’da (eu-west-1); CPU stack’ten izole</li></ul></div>
+        <ul class="list" style="--c:var(--orange)"><li>Aynı video version’ı tekrar job açmaz (idempotent)</li><li>GPU instance yalnızca job süresince ücretlenir</li><li>GPU ile job süresi CPU’ya göre ~19× kısa</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- 21 · SONUÇLAR -->
-<section class="slide" data-title="Sonuçlar" data-section="06 · Sonuçlar ve GPU">
-  <div class="r kicker">06 · Sonuçlar ve GPU</div>
+<section class="slide" data-title="Sonuçlar" data-section="06 · Sonuçlar ve performans">
+  <div class="r kicker">06 · Sonuçlar ve performans</div>
   <h2 class="r title">Sonuçlar: full-length filmlerde end-to-end pipeline</h2>
   <div class="body">
     <div class="grid g4">
-      <div class="r kpi" style="--c:var(--green)"><div class="v">9 / 9</div><div class="l">Full-length film <b>COMPLETED</b> · CPU pipeline (eu-central-1)</div></div>
+      <div class="r kpi" style="--c:var(--green)"><div class="v">9 / 9</div><div class="l">Full-length film <b>COMPLETED</b> · tüm pipeline adımları</div></div>
       <div class="r kpi" style="--c:var(--teal)"><div class="v">18 sa 12 dk</div><div class="l">Toplam işlenen video · film başına 1:39 – 2:39</div></div>
-      <div class="r kpi" style="--c:var(--gold)"><div class="v">~2,5×</div><div class="l">CPU processing süresi / film süresi · <code>ml.m5.xlarge</code></div></div>
+      <div class="r kpi" style="--c:var(--gold)"><div class="v">~19×</div><div class="l">GPU hızı · <code>g4dn.xlarge</code> vs <code>m5.xlarge</code>, aynı label’lar</div></div>
       <div class="r kpi" style="--c:var(--violet)"><div class="v">24 / 24</div><div class="l">Unit test · pipeline, worker, Starter, Publisher, Reader, store, CLI</div></div>
     </div>
     <div class="grid g2" style="align-items:start">
@@ -1153,10 +1152,10 @@ table.<span class="tf">put_item</span>(Item=item,
         </ul>
       </div>
       <div class="r card">
-        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-film"/></svg></span><div><h3>Batch run · 30.09.2026</h3><div class="sub">8 film paralel + Napoleon</div></div></div>
+        <div class="card-h"><span class="ic" style="--c:var(--gold)"><svg class="i"><use href="#i-film"/></svg></span><div><h3>İlk batch · 30.09.2026</h3><div class="sub">CPU baseline + GPU doğrulama</div></div></div>
         <ul class="checks">
-          <li><svg class="i"><use href="#i-check"/></svg><span>8 film paralel submit edildi; tümü <b>~5,5 sa</b> içinde Completed</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>Napoleon (2 sa 39 dk): ~32 segment, 6 sa 35 dk</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>8 film paralel submit edildi; tümü Completed</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>Napoleon (2 sa 39 dk): CPU 6 sa 35 dk → <b>GPU 20,5 dk</b></span></li>
           <li><svg class="i"><use href="#i-check"/></svg><span>Her filmde 1–4 micro-genre ve 4–14 micro-tag üretildi</span></li>
           <li><svg class="i"><use href="#i-box"/></svg><span>Model ve data artifact’ları arşivde: <code>archive/movietag/2026-09-29/</code></span></li>
         </ul>
@@ -1167,32 +1166,33 @@ table.<span class="tf">put_item</span>(Item=item,
 </section>
 
 <!-- 22 · GPU -->
-<section class="slide" data-title="GPU pipeline" data-section="06 · Sonuçlar ve GPU">
-  <div class="r kicker">06 · Sonuçlar ve GPU</div>
-  <h2 class="r title">GPU pipeline: eu-west-1’de izole clone</h2>
-  <p class="r lead">Aynı template ve kod tabanı, GPU instance ile. Full-length filmlerde throughput artışı için CPU pipeline’a dokunmadan ayrı region’da kuruldu.</p>
+<section class="slide" data-title="Performans: GPU vs CPU" data-section="06 · Sonuçlar ve performans">
+  <div class="r kicker">06 · Sonuçlar ve performans</div>
+  <h2 class="r title">GPU inference: aynı sonuç, ~19× daha hızlı</h2>
+  <p class="r lead">Production pipeline GPU (<code>ml.g4dn.xlarge</code> · NVIDIA T4) üzerinde çalışıyor. İlk batch’te kullandığımız CPU (<code>ml.m5.xlarge</code>) ile aynı model ve aynı label’lar, çok daha kısa sürede.</p>
   <div class="body">
     <div class="grid" style="grid-template-columns:1fr 1fr;align-items:start">
       <div class="r card">
         <ol class="vt">
-          <li style="--c:var(--violet)"><span class="dot">1</span><h4>Aynı IaC, ayrı region</h4><p><code>infra/template.yaml</code> → <code>micro-genre-film-gpu</code> stack; kendi bucket, Lambda, DynamoDB, OpenSearch ve DLQ’su.</p></li>
+          <li style="--c:var(--violet)"><span class="dot">1</span><h4>Production stack</h4><p><code>infra/template.yaml</code> → <code>micro-genre-film-gpu</code> (eu-west-1); kendi bucket, Lambda, DynamoDB, OpenSearch ve DLQ’su.</p></li>
           <li style="--c:var(--teal)"><span class="dot">2</span><h4>CUDA image</h4><p><code>Dockerfile.movietag-gpu</code> · torch 2.11 + cu126 · <code>REQUIRE_GPU=1</code> fail-fast.</p></li>
           <li style="--c:var(--gold)"><span class="dot">3</span><h4>CodeBuild ile build</h4><p><code>image-build.yaml</code> + <code>build-movietag-codebuild.ps1</code>; CUDA kontrolü geçmeden push yok (~8 dk).</p></li>
-          <li style="--c:var(--green)"><span class="dot">4</span><h4>ml.g4dn.xlarge · NVIDIA T4</h4><p>Processing quota onaylandı; JobPrefix <code>mg-gpu-</code>; 11 CMS kaydı yeni bucket’a taşındı.</p></li>
+          <li style="--c:var(--green)"><span class="dot">4</span><h4>ml.g4dn.xlarge · NVIDIA T4</h4><p>CLIP, CLAP ve FiLM classifier CUDA üzerinde; JobPrefix <code>mg-gpu-</code>.</p></li>
         </ol>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px">
         <div class="r card bars">
           <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-clock"/></svg></span><div><h3>Napoleon (2 sa 39 dk) · CPU vs GPU</h3><div class="sub">Processing job süresi</div></div></div>
           <div class="bar-row" style="--c:var(--slate);grid-template-columns:130px 1fr 64px"><span>CPU · m5.xlarge</span><span class="bar"><span style="--v:100%"></span></span><span class="v">6:35</span></div>
-          <div class="bar-row" style="--c:var(--teal);grid-template-columns:130px 1fr 64px"><span>GPU · g4dn.xlarge</span><span class="bar"><span style="--v:0%"></span></span><span class="v">running</span></div>
+          <div class="bar-row" style="--c:var(--teal);grid-template-columns:130px 1fr 64px"><span>GPU · g4dn.xlarge</span><span class="bar"><span style="--v:5.2%"></span></span><span class="v">0:21</span></div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin-top:10px"><span style="font-size:34px;font-weight:800;color:var(--teal);letter-spacing:-.02em">~19×</span><span class="muted" style="font-size:13px">daha hızlı · CPU film süresinin ~2,5 katı, GPU ~%13’ü kadar sürüyor</span></div>
         </div>
         <div class="r card">
-          <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Durum</h3><div class="sub">21.10.2026</div></div></div>
+          <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>End-to-end doğrulama</h3><div class="sub">21.10.2026 · napoleon-full</div></div></div>
           <ul class="checks">
-            <li><svg class="i"><use href="#i-check"/></svg><span>Stack <b>CREATE_COMPLETE</b> · image ECR’de</span></li>
-            <li><svg class="i"><use href="#i-check"/></svg><span>CMS kayıtları + <code>napoleon-full.mp4</code> taşındı</span></li>
-            <li><svg class="i"><use href="#i-clock"/></svg><span>GPU job <code>mg-gpu-00681a54…</code> çalışıyor</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>SageMaker <b>Completed</b> · DynamoDB <b>COMPLETED</b> · DLQ boş</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>CPU baseline ile <b>aynı</b> 3 micro-genre + 11 micro-tag ve score’lar</span></li>
+            <li><svg class="i"><use href="#i-check"/></svg><span>Reader (feature flag açık) label’ları dönüyor</span></li>
           </ul>
         </div>
       </div>
@@ -1201,26 +1201,26 @@ table.<span class="tf">put_item</span>(Item=item,
 </section>
 
 <!-- 23 · ROADMAP -->
-<section class="slide" data-title="Roadmap" data-section="06 · Sonuçlar ve GPU">
-  <div class="r kicker">06 · Sonuçlar ve GPU</div>
+<section class="slide" data-title="Roadmap" data-section="06 · Sonuçlar ve performans">
+  <div class="r kicker">06 · Sonuçlar ve performans</div>
   <h2 class="r title">Tamamlananlar ve roadmap</h2>
   <div class="body">
     <div class="grid g2" style="align-items:start">
       <div class="r card top" style="--c:var(--green)">
         <div class="card-h"><span class="ic" style="--c:var(--green)"><svg class="i"><use href="#i-check"/></svg></span><div><h3>Tamamlananlar</h3><div class="sub">model taşıma ve production pipeline</div></div></div>
         <ul class="checks" style="gap:13px">
-          <li><svg class="i"><use href="#i-check"/></svg><span>MovieTag modeli AWS altyapımıza taşındı (CPU · eu-central-1)</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>MovieTag modeli GPU’lu production pipeline’a taşındı (eu-west-1)</span></li>
           <li><svg class="i"><use href="#i-check"/></svg><span>9 full-length film end-to-end işlendi ve OpenSearch’e publish edildi</span></li>
           <li><svg class="i"><use href="#i-check"/></svg><span>Event-driven, idempotent, validated ve versioned pipeline</span></li>
           <li><svg class="i"><use href="#i-check"/></svg><span>Feature flag’li Reader entegrasyon endpoint’i</span></li>
-          <li><svg class="i"><use href="#i-check"/></svg><span>GPU pipeline (eu-west-1) + CodeBuild image build</span></li>
+          <li><svg class="i"><use href="#i-check"/></svg><span>GPU inference: CPU baseline’a göre ~19× hızlı, aynı sonuç</span></li>
           <li><svg class="i"><use href="#i-check"/></svg><span>IaC, tek komutla deploy ve 24 unit test</span></li>
         </ul>
       </div>
       <div class="r card top" style="--c:var(--teal)">
         <div class="card-h"><span class="ic" style="--c:var(--teal)"><svg class="i"><use href="#i-flag"/></svg></span><div><h3>Sıradaki adımlar</h3><div class="sub">öncelik sırasıyla</div></div></div>
         <ol class="vt" style="gap:15px">
-          <li style="--c:var(--teal)"><span class="dot">1</span><p><b>GPU benchmark</b> → katalog işlemeyi GPU pipeline’a taşıma</p></li>
+          <li style="--c:var(--teal)"><span class="dot">1</span><p><b>Katalog backfill:</b> tüm kataloğu GPU pipeline’da işleme (paralel job’lar için GPU quota artırımı)</p></li>
           <li style="--c:var(--teal)"><span class="dot">2</span><p><b>Threshold &amp; calibration</b> iyileştirmesi — full-film sonuçları baseline</p></li>
           <li style="--c:var(--teal)"><span class="dot">3</span><p><b>Katalog rebuild</b> ve kontrollü alias promotion</p></li>
           <li style="--c:var(--teal)"><span class="dot">4</span><p><b>Monitoring:</b> DLQ / FAILED alarmları ve job reconciliation</p></li>
@@ -1240,8 +1240,8 @@ table.<span class="tf">put_item</span>(Item=item,
   <div class="body">
     <div class="take">
       <div class="r card top" style="--c:var(--gold)"><span class="n">01</span><h3>Multimodal model</h3><p>Görüntü, ses ve metni FiLM ile birleştiren MovieTag, CMS genre’ın ötesinde içerik seviyesinde micro-tag ve micro-genre üretiyor.</p></div>
-      <div class="r card top" style="--c:var(--teal)"><span class="n">02</span><h3>Production-ready pipeline</h3><p>Event-driven, idempotent, 7 validation gate’li ve versioned publish; feature flag ile tek parametrede rollback.</p></div>
-      <div class="r card top" style="--c:var(--violet)"><span class="n">03</span><h3>Full-length filmlerde kanıtlandı</h3><p>9 full-length film (18+ saat) end-to-end işlendi; GPU pipeline ile throughput artışı devrede.</p></div>
+      <div class="r card top" style="--c:var(--teal)"><span class="n">02</span><h3>Production-ready pipeline</h3><p>Event-driven, GPU inference, idempotent, 7 validation gate’li ve versioned publish; feature flag ile tek parametrede rollback.</p></div>
+      <div class="r card top" style="--c:var(--violet)"><span class="n">03</span><h3>Full-length filmlerde kanıtlandı</h3><p>9 full-length film (18+ saat) end-to-end işlendi; GPU pipeline aynı sonuçları ~19× daha hızlı üretiyor.</p></div>
     </div>
     <div class="r thanks">
       <div><h2>Teşekkürler<span class="grad">.</span></h2><p class="muted" style="margin:10px 0 0;font-size:16px">Sorular ve tartışma</p></div>
